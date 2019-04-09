@@ -5,8 +5,8 @@ An overview of the game can be found at this link: https://en.wikipedia.org/wiki
 In broad terms, 'dueling' refers to one-on-one combat between two players. However, dueling is more often 
 associated with legal gambling in OSRS. More specifically, most duels in OSRS consist of players staking 
 money against one another and participating in a rule-enforced fight to determine the winner. Of the numerous 
-rules, the most important ones are melee combat only (no ranged or magic), no stat boosting potions, no armor, no movement, and either no weapon or 
-one weapon, depending on the type of duel.
+rules, the most important ones are melee combat only (no ranged or magic), no stat boosting potions, no armor, 
+no movement, and either no weapon or one weapon.
 
 The aforementioned rules are what I will follow when implementing my dueling simulator. However, I will not 
 implement the gambling part of the duel because most gamblers will only duel players of similar stats and items. 
@@ -33,7 +33,11 @@ of them.
 - Comprehensive combat formulas: http://services.runescape.com/m=forum/forums.ws?317,318,712,65587452,goto,1
 - Video with accuracy formula: https://www.youtube.com/watch?v=Ucvn8hQEs2A
 - OSRS wiki page with max hit formula: https://oldschool.runescape.wiki/w/Maximum_melee_hit
-- Credit Jagex, the company which created Old School Runescape, for any images of their game used
+- Player data API: http://www.sudo.tf/api/hiscores/grab.php?rsn=
+- Item API for weapons: https://www.osrsbox.com/projects/osrsbox-db/#accessing-the-json-api
+- Credit Jagex, the company which created Old School Runescape, for any images/assets of their game used
+- openFrameworks tutorial videos by Lewis Lempton: https://www.youtube.com/watch?v=IKSTo_0pB28&list=PL4neAtv21WOmrV8z9rSzL20QpdLU1zJLr&index=1
 
 # Libraries
-- 
+- To design my user interface, I’ll use ofxDatGui: https://github.com/braitsch/ofxDatGui
+- To load API data, I’ll use ofxJSON: https://github.com/jeffcrouse/ofxJSON
