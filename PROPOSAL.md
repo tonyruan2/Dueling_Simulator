@@ -35,8 +35,8 @@ of them.
 - OSRS wiki page with max hit formula: https://oldschool.runescape.wiki/w/Maximum_melee_hit
 - Player data API: http://www.sudo.tf/api/hiscores/grab.php?rsn=
 - Item API for weapons: https://www.osrsbox.com/projects/osrsbox-db/#accessing-the-json-api
-- Credit Jagex, the company which created Old School Runescape, for any images/assets of their game used
 - openFrameworks tutorial videos by Lewis Lempton: https://www.youtube.com/watch?v=IKSTo_0pB28&list=PL4neAtv21WOmrV8z9rSzL20QpdLU1zJLr&index=1
+- Credit Jagex, the company which created Old School Runescape, for any images/assets of their game used
 
 # Libraries
 - To design my user interface, I’ll use ofxDatGui: https://github.com/braitsch/ofxDatGui
