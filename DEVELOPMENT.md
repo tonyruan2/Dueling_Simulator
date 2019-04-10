@@ -25,10 +25,6 @@ of linking the GUI created by ofxDatGui with ofxJSON's parsing capabilities.
 - [ ] Damage/Accuracy calculations
 - [ ] Combat simulation loop (take into account unarmed/armed, attack style changes, timing between attacks)
 - [ ] Images/Videos for animating the combat (possibly use another library)
-- [ ] Run simulations after the first
+- [ ] Run numerous simulations after the first
 - [ ] Analye the simulations
-- [ ] Display results of the simulations
-
-## Reaches
-- [ ] Weapons besides the primary one (named "Abyssal tentacle") used in duels
-- [ ] ...
+- [ ] Display the result of the simulations
