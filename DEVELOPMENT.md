@@ -18,6 +18,8 @@ field, I can press the "Player lookup" button and have the sliders update to mat
 of linking the GUI created by ofxDatGui with ofxJSON's parsing capabilities.
 
 ## List of major tasks
+- [ ] Project structure/classes
+- [ ] Test cases
 - [ ] GUI design and layout
 - [ ] Random stat generator button
 - [ ] Damage/Accuracy calculations
