@@ -16,3 +16,17 @@ issues with bad player names or players that weren’t able to be found.
 I added some code that allows me to parse player stat data from the API. Now, after I enter a username in the "Player name" text input
 field, I can press the "Player lookup" button and have the sliders update to match the data retrieved from the API. This is the base
 of linking the GUI created by ofxDatGui with ofxJSON's parsing capabilities.
+
+## List of major tasks
+- [ ] GUI design and layout
+- [ ] Random stat generator button
+- [ ] Damage/Accuracy calculations
+- [ ] Combat simulation loop (take into account unarmed/armed, attack style changes, timing between attacks)
+- [ ] Images/Videos for animating the combat (possibly use another library)
+- [ ] Run simulations after the first
+- [ ] Analye the simulations
+- [ ] Display results of the simulations
+
+## Reaches
+- [ ] Weapons besides the primary one (named "Abyssal tentacle") used in duels
+- [ ] ...

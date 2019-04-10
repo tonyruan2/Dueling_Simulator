@@ -10,7 +10,7 @@ no movement, and either no weapon or one weapon.
 
 The aforementioned rules are what I will follow when implementing my dueling simulator. However, I will not 
 implement the gambling part of the duel because most gamblers will only duel players of similar stats and items. 
-This will result in most duels being a coin-flip.
+This results in most duels being a coin-flip.
 
 However, I plan to implement an analysis feature on the simulated duels. First, some background explanation 
 is needed. In OSRS, rule-enforced duels are turn-based and the damage that a player deals to another player 
