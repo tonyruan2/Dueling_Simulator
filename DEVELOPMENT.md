@@ -38,6 +38,19 @@ a slider view so that users can gauge the strength of a player at a glance.
 I added a duel runner gui component. Users can select whether they want to run a long-run analysis as well as the simulation. I also 
 modified the gui layout and switched some buttons/sliders around to add clarity.
 
+I ran into my first major bug while writing code for limitations on a player's stats. The abyssal tentacle requires a 
+player to have an attack level of 75. I tried to make changing a player's weapon to abyssal tentacle cause their attack to be set to 
+75 if it is below it. I also tried to enforce users not being able to change a player's attack below 75 if the abyssal tentacle 
+is selected for that player.
+
+The bug occurs when the "Abyssal Tentacle" option for a player is selected. When I click generate random players, the new player's attack
+never falls below 75. During the generation of random players, I make sure to select the unarmed option for each player before generating 
+new stats. This should, in theory, cause no limitation to be placed. However, it appears that the player's weapon does not get reset 
+properly. Visually, it does--the dropdown option changes to "Unarmed"--but printing the selected dropdown after selecting unarmed 
+displays the abyssal tentacle instead. I'm not sure why the code to select an option in the dropdown doesn't change what's returned by a
+subsequent get() method on that option. However, if I manually reselect "Unarmed" (though "Unarmed is already selected"), then the player's 
+data is randomly generated.
+
 ## List of major tasks
 - [ ] Project structure/classes
 - [ ] Test cases
