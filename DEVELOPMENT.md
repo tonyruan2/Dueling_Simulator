@@ -27,6 +27,9 @@ I wanted this to allow users the ability to visually compare a player's hitpoint
 I prevented the user from setting a player's hitpoints below 10 by using a slider event to reset the hitpoints slider to 10 whenever it has 
 a value below 10.
 
+Another feature that I added to my GUI was generating stats of players randomly. I also added an option to generate the stats of each player 
+so that the total stats were within a user-selected amount of one another.
+
 ## List of major tasks
 - [ ] Project structure/classes
 - [ ] Test cases
