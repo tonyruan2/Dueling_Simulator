@@ -1,0 +1,165 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="src\ofApp.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\main.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\addons\ofxDatGui-master\src\ofxDatGui.cpp">
+      <Filter>addons\ofxDatGui-master\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\addons\ofxDatGui-master\src\core\ofxDatGuiComponent.cpp">
+      <Filter>addons\ofxDatGui-master\src\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\addons\ofxDatGui-master\src\libs\ofxSmartFont\ofxSmartFont.cpp">
+      <Filter>addons\ofxDatGui-master\src\libs\ofxSmartFont</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\addons\ofxJSON-master\src\ofxJSONElement.cpp">
+      <Filter>addons\ofxJSON-master\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\addons\ofxJSON-master\libs\jsoncpp\src\jsoncpp.cpp">
+      <Filter>addons\ofxJSON-master\libs\jsoncpp\src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gui.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="src">
+      <UniqueIdentifier>{d8376475-7454-4a24-b08a-aac121d3ad6f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons">
+      <UniqueIdentifier>{78c38158-c6e7-4768-b148-a14f6e841c21}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxDatGui-master">
+      <UniqueIdentifier>{2b4c2242-48c7-4daa-a327-f999b060ce3e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxDatGui-master\src">
+      <UniqueIdentifier>{9072c19b-bed3-4cb6-8053-b81a657d9d51}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxDatGui-master\src\components">
+      <UniqueIdentifier>{8e2db14a-1845-4ca1-a6c9-b52af4452d49}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxDatGui-master\src\core">
+      <UniqueIdentifier>{2a69c5ad-de91-45ef-84b2-daa3f01be756}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxDatGui-master\src\libs">
+      <UniqueIdentifier>{d80e641d-c0a2-4f0e-a94a-7e2ffd658947}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxDatGui-master\src\libs\ofxSmartFont">
+      <UniqueIdentifier>{7ad66e80-8653-4ef3-a097-464ac2ea7e6e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxDatGui-master\src\themes">
+      <UniqueIdentifier>{cc8e7beb-6f68-4bc9-a0b4-37fa7ab009b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxJSON-master">
+      <UniqueIdentifier>{a67d5811-6d6d-474c-938c-bad408a9f042}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxJSON-master\src">
+      <UniqueIdentifier>{362ec6df-17ef-4264-ace4-b0c926529545}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxJSON-master\libs">
+      <UniqueIdentifier>{2665b7cd-be87-458a-88d0-11ecb01fb1ec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxJSON-master\libs\jsoncpp">
+      <UniqueIdentifier>{7cc87c64-ecc5-49bd-bee4-fb696f7f3016}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxJSON-master\libs\jsoncpp\include">
+      <UniqueIdentifier>{16af3ee1-21a4-4cb2-b4ff-b5747b0ed6f0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxJSON-master\libs\jsoncpp\include\json">
+      <UniqueIdentifier>{7e80b05e-122f-4095-b9cc-cfe01ccda7cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxJSON-master\libs\jsoncpp\src">
+      <UniqueIdentifier>{fbaf37eb-c032-4263-933a-d487a92cc7e4}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\ofApp.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\addons\ofxDatGui-master\src\ofxDatGui.h">
+      <Filter>addons\ofxDatGui-master\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\addons\ofxDatGui-master\src\components\ofxDatGui2dPad.h">
+      <Filter>addons\ofxDatGui-master\src\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\addons\ofxDatGui-master\src\components\ofxDatGuiButton.h">
+      <Filter>addons\ofxDatGui-master\src\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\addons\ofxDatGui-master\src\components\ofxDatGuiColorPicker.h">
+      <Filter>addons\ofxDatGui-master\src\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\addons\ofxDatGui-master\src\components\ofxDatGuiControls.h">
+      <Filter>addons\ofxDatGui-master\src\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\addons\ofxDatGui-master\src\components\ofxDatGuiFRM.h">
+      <Filter>addons\ofxDatGui-master\src\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\addons\ofxDatGui-master\src\components\ofxDatGuiGroups.h">
+      <Filter>addons\ofxDatGui-master\src\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\addons\ofxDatGui-master\src\components\ofxDatGuiLabel.h">
+      <Filter>addons\ofxDatGui-master\src\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\addons\ofxDatGui-master\src\components\ofxDatGuiMatrix.h">
+      <Filter>addons\ofxDatGui-master\src\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\addons\ofxDatGui-master\src\components\ofxDatGuiScrollView.h">
+      <Filter>addons\ofxDatGui-master\src\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\addons\ofxDatGui-master\src\components\ofxDatGuiSlider.h">
+      <Filter>addons\ofxDatGui-master\src\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\addons\ofxDatGui-master\src\components\ofxDatGuiTextInput.h">
+      <Filter>addons\ofxDatGui-master\src\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\addons\ofxDatGui-master\src\components\ofxDatGuiTextInputField.h">
+      <Filter>addons\ofxDatGui-master\src\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\addons\ofxDatGui-master\src\components\ofxDatGuiTimeGraph.h">
+      <Filter>addons\ofxDatGui-master\src\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\addons\ofxDatGui-master\src\core\ofxDatGuiComponent.h">
+      <Filter>addons\ofxDatGui-master\src\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\addons\ofxDatGui-master\src\core\ofxDatGuiConstants.h">
+      <Filter>addons\ofxDatGui-master\src\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\addons\ofxDatGui-master\src\core\ofxDatGuiEvents.h">
+      <Filter>addons\ofxDatGui-master\src\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\addons\ofxDatGui-master\src\core\ofxDatGuiIntObject.h">
+      <Filter>addons\ofxDatGui-master\src\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\addons\ofxDatGui-master\src\libs\ofxSmartFont\ofxSmartFont.h">
+      <Filter>addons\ofxDatGui-master\src\libs\ofxSmartFont</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\addons\ofxDatGui-master\src\themes\ofxDatGuiTheme.h">
+      <Filter>addons\ofxDatGui-master\src\themes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\addons\ofxDatGui-master\src\themes\ofxDatGuiThemes.h">
+      <Filter>addons\ofxDatGui-master\src\themes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\addons\ofxJSON-master\src\ofxJSON.h">
+      <Filter>addons\ofxJSON-master\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\addons\ofxJSON-master\src\ofxJSONElement.h">
+      <Filter>addons\ofxJSON-master\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\addons\ofxJSON-master\libs\jsoncpp\include\json\json-forwards.h">
+      <Filter>addons\ofxJSON-master\libs\jsoncpp\include\json</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\addons\ofxJSON-master\libs\jsoncpp\include\json\json.h">
+      <Filter>addons\ofxJSON-master\libs\jsoncpp\include\json</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gui.h">
+      <Filter>src</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="icon.rc" />
+  </ItemGroup>
+</Project>
