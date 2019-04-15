@@ -25,6 +25,9 @@
     <ClCompile Include="src\gui.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\duel.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
@@ -156,6 +159,9 @@
       <Filter>addons\ofxJSON-master\libs\jsoncpp\include\json</Filter>
     </ClInclude>
     <ClInclude Include="src\gui.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\duel.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>

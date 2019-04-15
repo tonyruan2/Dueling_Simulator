@@ -4,6 +4,7 @@
 #include "ofxDatGui.h"
 #include "ofxJSON.h"
 #include "gui.h"
+#include "duel.h"
 
 class ofApp : public ofBaseApp {
 

@@ -49,8 +49,11 @@ void Gui::setupPlayer(int player_id) {
 
 	gui->addDropdown("Attack style", attack_styles)->select(0);
 
+	std::vector<std::string> weapons
+		= { "Unarmed", "Abyssal Tentacle" };
+	gui->addDropdown("Weapon", weapons)->select(0);
+
 	gui->addToggle("Alternate attack style?", false);
-	gui->addToggle("Use weapon?", false);
 
 	gui->onButtonEvent(this, &Gui::onLookupEvent);
 	gui->onSliderEvent(this, &Gui::onStatChangeEvent);

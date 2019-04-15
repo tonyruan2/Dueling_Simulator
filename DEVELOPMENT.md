@@ -34,6 +34,10 @@ Finally, the total stats value of each player is now displayed as a slider that 
 accordingly whenever users lookup players, generate random player data, or manually change the values of a player's stats. I chose to use 
 a slider view so that users can gauge the strength of a player at a glance.
 
+# Monday, April 15th, 2019
+I added a duel runner gui component. Users can select whether they want to run a long-run analysis as well as the simulation. I also 
+modified the gui layout and switched some buttons/sliders around to add clarity.
+
 ## List of major tasks
 - [ ] Project structure/classes
 - [ ] Test cases

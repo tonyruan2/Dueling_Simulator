@@ -193,6 +193,7 @@ C:\Users\trpro\Downloads\of_v0.10.1_vs2017_release\of_v0.10.1_vs2017_release\add
     <ClCompile Include="..\..\..\..\..\addons\ofxDatGui-master\src\ofxDatGui.cpp" />
     <ClCompile Include="..\..\..\..\..\addons\ofxJSON-master\libs\jsoncpp\src\jsoncpp.cpp" />
     <ClCompile Include="..\..\..\..\..\addons\ofxJSON-master\src\ofxJSONElement.cpp" />
+    <ClCompile Include="src\duel.cpp" />
     <ClCompile Include="src\gui.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\ofApp.cpp" />
@@ -223,6 +224,7 @@ C:\Users\trpro\Downloads\of_v0.10.1_vs2017_release\of_v0.10.1_vs2017_release\add
     <ClInclude Include="..\..\..\..\..\addons\ofxJSON-master\libs\jsoncpp\include\json\json.h" />
     <ClInclude Include="..\..\..\..\..\addons\ofxJSON-master\src\ofxJSON.h" />
     <ClInclude Include="..\..\..\..\..\addons\ofxJSON-master\src\ofxJSONElement.h" />
+    <ClInclude Include="src\duel.h" />
     <ClInclude Include="src\gui.h" />
     <ClInclude Include="src\ofApp.h" />
   </ItemGroup>
