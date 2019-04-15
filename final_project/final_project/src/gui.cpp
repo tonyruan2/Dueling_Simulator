@@ -34,10 +34,8 @@ void Gui::setupPlayer(int player_id) {
 	gui->addSlider("Defence:", 1, 99, 1)->setPrecision(0);
 	//min hitpoints is 1 for comparison to other stats
 	gui->addSlider("Hitpoints:", 1, 99, 1)->setPrecision(0);
-
 	//to display as an int rather than the default float
 	gui->getSlider("Hitpoints:")->setValue(10);
-
 	gui->addSlider("Total value:", 1, 396, 1)
 		->setEnabled(false);
 	gui->getSlider("Total value:")->setPrecision(0);
@@ -46,7 +44,6 @@ void Gui::setupPlayer(int player_id) {
 
 	std::vector<std::string> attack_styles 
 		= { "ACCURATE", "AGGRESSIVE", "DEFENSIVE" };
-
 	gui->addDropdown("Attack style", attack_styles)->select(0);
 
 	std::vector<std::string> weapons
@@ -57,6 +54,24 @@ void Gui::setupPlayer(int player_id) {
 
 	gui->onButtonEvent(this, &Gui::onLookupEvent);
 	gui->onSliderEvent(this, &Gui::onStatChangeEvent);
+	gui->onDropdownEvent(this, &Gui::onWeaponChangeEvent);
+}
+
+void Gui::onWeaponChangeEvent(ofxDatGuiDropdownEvent e) {
+	//Selecting abyssal tencale changes a player's attack level to 75 if it is below it
+	//This is a stat requirement
+	if (e.target->is("Weapon")) {
+		if ((player_one_gui->getDropdown("Weapon")
+			->getSelected()->getLabel() == "Abyssal Tentacle")
+			&& player_one_gui->getSlider("Attack:")->getValue() < 75) {
+			player_one_gui->getSlider("Attack:")->setValue(75);
+		}
+		if ((player_two_gui->getDropdown("Weapon")
+			->getSelected()->getLabel() == "Abyssal Tentacle")
+			&& player_two_gui->getSlider("Attack:")->getValue() < 75) {
+			player_two_gui->getSlider("Attack:")->setValue(75);
+		}
+	}
 }
 
 void Gui::setupRandomizer() {
@@ -162,6 +177,21 @@ void Gui::onStatChangeEvent(ofxDatGuiSliderEvent e) {
 	if (e.target->is("Hitpoints:") && e.target->getValue() < 10) {
 		e.target->setValue(10);
 	}
+	
+	//Abyssal tentacle requires an attack level of at least 75 to use
+	if (e.target->is("Attack:")) {
+		if (player_one_gui->getSlider("Attack:")->getValue() < 75
+			&& player_one_gui->getDropdown("Weapon")->getSelected()->getLabel() == "Abyssal Tentacle") {
+			std::cout << "onStatChange" << std::endl;
+			std::cout << player_one_gui->getDropdown("Weapon")->getSelected()->getLabel() << std::endl;
+			player_one_gui->getSlider("Attack:")->setValue(75);
+		}
+
+		if (player_two_gui->getSlider("Attack:")->getValue() < 75
+			&& player_two_gui->getDropdown("Weapon")->getSelected()->getLabel() == "Abyssal Tentacle") {
+			player_two_gui->getSlider("Attack:")->setValue(75);
+		}
+	}
 
 	player_one_gui->getSlider("Total value:")->setValue(computePlayerTotal(1));
 	player_two_gui->getSlider("Total value:")->setValue(computePlayerTotal(2));
@@ -185,13 +215,25 @@ void Gui::setRandomStats(int player_id) {
 	gui->getSlider("Hitpoints:")->setValue(rand() % 100 + 10); //generate a value from 10 to 99
 }
 
+
+void Gui::resetPlayerData() {
+	player_one_gui->getTextInput("Player name:")->setText("");
+	player_one_gui->getDropdown("Weapon")->select(0);
+
+	//
+	std::cout << "reset" << std::endl;
+	std::cout << player_one_gui->getDropdown("Weapon")->getSelected()->getLabel() << std::endl;
+	//
+	player_two_gui->getTextInput("Player name:")->setText("");
+	player_two_gui->getDropdown("Weapon")->select(0);
+}
+
 void Gui::onRandomizeEvent(ofxDatGuiButtonEvent e) {
 	if (!e.target->is("Generate random players")) {
 		return;
 	}
 
-	player_one_gui->getTextInput("Player name:")->setText("");
-	player_two_gui->getTextInput("Player name:")->setText("");
+	resetPlayerData();
 
 	bool generate_similar = randomizer_gui->getToggle("Ensure similar total stats?")->getChecked();
 

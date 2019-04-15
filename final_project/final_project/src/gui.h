@@ -20,9 +20,11 @@ private:
 	void setupDuelRunner();
 
 	void onLookupEvent(ofxDatGuiButtonEvent e);
+	void onWeaponChangeEvent(ofxDatGuiDropdownEvent e);
 	int computePlayerTotal(int player_id);
 	void onStatChangeEvent(ofxDatGuiSliderEvent e);
 	void setRandomStats(int player_id);
+	void resetPlayerData();
 	void onRandomizeEvent(ofxDatGuiButtonEvent e);
 	void onRunEvent(ofxDatGuiButtonEvent e);
 	void onSetRunsEvent(ofxDatGuiSliderEvent e);
