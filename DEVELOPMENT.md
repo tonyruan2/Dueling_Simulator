@@ -17,6 +17,16 @@ I added some code that allows me to parse player stat data from the API. Now, af
 field, I can press the "Player lookup" button and have the sliders update to match the data retrieved from the API. This is the base
 of linking the GUI created by ofxDatGui with ofxJSON's parsing capabilities.
 
+# Sunday, April 14th, 2019
+I added a gui class so that users can input the data of two players. Since I have one interface for each player in the duel, I reused as 
+much code by passing in an argument for which player one of my methods (setupPlayer()) was supposed to generate a gui for. 
+
+I also discovered how to set event handlers using ofxDatGui. This was important because I wanted to impose a limitation on the sliders. 
+The hitpoints stat for each player cannot be less than 10, but I wanted the gui to show a hitpoints bar representing values 1 to 99. 
+I wanted this to allow users the ability to visually compare a player's hitpoints stat bar with their other stats that range from 1 to 99. 
+I prevented the user from setting a player's hitpoints below 10 by using a slider event to reset the hitpoints slider to 10 whenever it has 
+a value below 10.
+
 ## List of major tasks
 - [ ] Project structure/classes
 - [ ] Test cases
