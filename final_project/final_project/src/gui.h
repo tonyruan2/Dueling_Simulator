@@ -7,11 +7,12 @@
 class Gui {
 
 public:
-	void setup();
+	void setup(int player_id);
 	void draw();
 	void onButtonEvent(ofxDatGuiButtonEvent e);
 
-	ofxDatGui* gui = new ofxDatGui(0, ofGetHeight() / 2);
+	ofxDatGui* player_one_gui = new ofxDatGui(0, ofGetHeight() / 2);
+	ofxDatGui* player_two_gui = new ofxDatGui(ofGetWidth() / 2, ofGetHeight() / 2);
 	//ofTrueTypeFont myFont;
 	ofxJSONElement result;
 

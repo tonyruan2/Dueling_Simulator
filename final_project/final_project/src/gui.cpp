@@ -1,12 +1,24 @@
 #include "ofApp.h"
 #include "gui.h"
+#include <string>
+#include <algorithm>
 
-void Gui::setup() {
-	gui->addLabel("PLAYER ONE");
+void Gui::setup(int player_id) {
+	ofxDatGui* gui;
+	std::string player_label;
+	if (player_id == 1) {
+		gui = player_one_gui;
+		player_label = "ONE";
+	}
+	else {
+		gui = player_two_gui;
+		player_label = "TWO";
+	}
+
+	gui->addHeader(":: PLAYER " + player_label + " ::");
 	gui->addTextInput("Player name:", "");
 
-	gui->addButton("Lookup player one");
-	gui->onButtonEvent(this, &Gui::onButtonEvent);
+	gui->addButton("LOOKUP PLAYER " + player_label)->setLabelAlignment(ofxDatGuiAlignment::CENTER);
 
 	gui->addSlider("Attack:", 1, 99, 1)->setPrecision(0);
 	gui->addSlider("Strength:", 1, 99, 1)->setPrecision(0);
@@ -19,6 +31,8 @@ void Gui::setup() {
 	gui->addToggle("Alternate attack style?", false);
 
 	gui->addToggle("Use weapon?", false);
+
+	gui->onButtonEvent(this, &Gui::onButtonEvent);
 }
 
 void Gui::draw() {
@@ -26,15 +40,17 @@ void Gui::draw() {
 }
 
 void Gui::onButtonEvent(ofxDatGuiButtonEvent e) {
-	std::cout << e.target->getLabel() << " was clicked!" << std::endl;
+	ofxDatGui* gui;
+	if (e.target->is("LOOKUP PLAYER ONE")) {
+		gui = player_one_gui;
+	}
+	else {
+		gui = player_two_gui;
+	}
 
-	std::string username = gui->getTextInput("Player name:")->getText();
-	//http://www.sudo.tf/api/hiscores/grab.php?rsn=Zezima
-	//https://www.osrsbox.com/osrsbox-db/items-json/4151.json
+	std::string url = "http://www.sudo.tf/api/hiscores/grab.php?rsn=" 
+		+ gui->getTextInput("Player name:")->getText();
 
-	std::string url = "http://www.sudo.tf/api/hiscores/grab.php?rsn=" + username;
-
-	// Now parse the JSON
 	bool parsingSuccessful = result.open(url);
 
 	if (parsingSuccessful)
@@ -47,11 +63,11 @@ void Gui::onButtonEvent(ofxDatGuiButtonEvent e) {
 			gui->getSlider("Hitpoints:")->setValue(stoi(result["stats"]["hitpoints"]["level"].asString()));
 		}
 		else {
-			//do something to tell user about bad input
+			gui->getTextInput("Player name:")->setText("[INVALID NAME]");
 		}
 	}
 	else
 	{
-		ofLogNotice("ofApp::setup") << "Failed to parse JSON" << endl;
+		ofLogNotice("Gui::OnButtonEvent") << "Failed to parse JSON" << endl;
 	}
 }
