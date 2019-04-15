@@ -34,11 +34,15 @@ void Gui::setupPlayer(int player_id) {
 	gui->addSlider("Defence:", 1, 99, 1)->setPrecision(0);
 	//min hitpoints is 1 for comparison to other stats
 	gui->addSlider("Hitpoints:", 1, 99, 1)->setPrecision(0);
-	gui->getSlider("Hitpoints:")->setValue(10); //minimum hitpoints is 10
 
-	gui->addSlider("Total value:", 1, 396, computePlayerTotal(player_id))
+	//to display as an int rather than the default float
+	gui->getSlider("Hitpoints:")->setValue(10);
+
+	gui->addSlider("Total value:", 1, 396, 1)
 		->setEnabled(false);
 	gui->getSlider("Total value:")->setPrecision(0);
+	//to display as an int rather than the default float
+	gui->getSlider("Total value:")->setValue(computePlayerTotal(player_id));
 
 	std::vector<std::string> attack_styles 
 		= { "ACCURATE", "AGGRESSIVE", "DEFENSIVE" };
@@ -57,7 +61,9 @@ void Gui::setupRandomizer() {
 	randomizer_gui->addButton("Generate random players")
 		->setLabelAlignment(ofxDatGuiAlignment::CENTER);
 	randomizer_gui->addToggle("Ensure similar total stats?", false);
-	randomizer_gui->addSlider("Difference:", 0, 386, 10)->setPrecision(0);
+	randomizer_gui->addSlider("Difference:", 0, 383, 1)->setPrecision(0);
+	//to display as an int rather than the default float
+	randomizer_gui->getSlider("Difference:")->setValue(10);
 	randomizer_gui->onButtonEvent(this, &Gui::onRandomizeEvent);
 }
 
@@ -102,6 +108,26 @@ void Gui::onLookupEvent(ofxDatGuiButtonEvent e) {
 	{
 		ofLogNotice("Gui::OnButtonEvent") << "Failed to parse JSON" << endl;
 	}
+}
+
+int Gui::computePlayerTotal(int player_id) {
+	ofxDatGui* gui;
+	if (player_id == 1) {
+		gui = player_one_gui;
+	}
+	else if (player_id == 2) {
+		gui = player_two_gui;
+	}
+	else {
+		return -1; //private method should not return -1 if arguments are 1 or 2
+	}
+
+	int total_stat_value = gui->getSlider("Attack:")->getValue()
+		+ gui->getSlider("Strength:")->getValue()
+		+ gui->getSlider("Defence:")->getValue()
+		+ gui->getSlider("Hitpoints:")->getValue();
+
+	return total_stat_value;
 }
 
 void Gui::onSliderEvent(ofxDatGuiSliderEvent e) {
@@ -158,24 +184,4 @@ void Gui::onRandomizeEvent(ofxDatGuiButtonEvent e) {
 		setRandomStats(1);
 		setRandomStats(2);
 	}
-}
-
-int Gui::computePlayerTotal(int player_id) {
-	ofxDatGui* gui;
-	if (player_id == 1) {
-		gui = player_one_gui;
-	}
-	else if (player_id == 2) {
-		gui = player_two_gui;
-	}
-	else {
-		return -1; //private method should not return -1 if arguments are 1 or 2
-	}
-
-	int total_stat_value = gui->getSlider("Attack:")->getValue()
-		+ gui->getSlider("Strength:")->getValue()
-		+ gui->getSlider("Defence:")->getValue()
-		+ gui->getSlider("Hitpoints:")->getValue();
-
-	return total_stat_value;
 }

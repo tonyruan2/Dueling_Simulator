@@ -30,6 +30,10 @@ a value below 10.
 Another feature that I added to my GUI was generating stats of players randomly. I also added an option to generate the stats of each player 
 so that the total stats were within a user-selected amount of one another.
 
+Finally, the total stats value of each player is now displayed as a slider that is not directly modifiable. The slider value changes 
+accordingly whenever users lookup players, generate random player data, or manually change the values of a player's stats. I chose to use 
+a slider view so that users can gauge the strength of a player at a glance.
+
 ## List of major tasks
 - [ ] Project structure/classes
 - [ ] Test cases

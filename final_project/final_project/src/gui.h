@@ -19,9 +19,9 @@ private:
 	void setupRandomizer();
 
 	void onLookupEvent(ofxDatGuiButtonEvent e);
+	int computePlayerTotal(int player_id);
 	void onSliderEvent(ofxDatGuiSliderEvent e);
 	void setRandomStats(int player_id);
 	void onRandomizeEvent(ofxDatGuiButtonEvent e);
 
-	int computePlayerTotal(int player_id);
 };
