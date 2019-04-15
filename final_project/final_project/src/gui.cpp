@@ -1,4 +1,3 @@
-#include "ofApp.h"
 #include "gui.h"
 #include <cstdlib>
 
@@ -6,6 +5,7 @@ void Gui::setup() {
 	setupPlayer(1);
 	setupPlayer(2);
 	setupRandomizer();
+	setupDuelRunner();
 }
 
 void Gui::setupPlayer(int player_id) {
@@ -53,7 +53,7 @@ void Gui::setupPlayer(int player_id) {
 	gui->addToggle("Use weapon?", false);
 
 	gui->onButtonEvent(this, &Gui::onLookupEvent);
-	gui->onSliderEvent(this, &Gui::onSliderEvent);
+	gui->onSliderEvent(this, &Gui::onStatChangeEvent);
 }
 
 void Gui::setupRandomizer() {
@@ -61,10 +61,35 @@ void Gui::setupRandomizer() {
 	randomizer_gui->addButton("Generate random players")
 		->setLabelAlignment(ofxDatGuiAlignment::CENTER);
 	randomizer_gui->addToggle("Ensure similar total stats?", false);
-	randomizer_gui->addSlider("Difference:", 0, 383, 1)->setPrecision(0);
+	randomizer_gui->addSlider("Max total dif:", 0, 383, 1)->setPrecision(0);
 	//to display as an int rather than the default float
-	randomizer_gui->getSlider("Difference:")->setValue(10);
+	randomizer_gui->getSlider("Max total dif:")->setValue(10);
 	randomizer_gui->onButtonEvent(this, &Gui::onRandomizeEvent);
+}
+
+void Gui::onSetRunsEvent(ofxDatGuiSliderEvent e) {
+	if (e.target->is("Total runs:")
+		&& duel_runner_gui->getSlider("Total runs:")->getValue() < 100) {
+		duel_runner_gui->getSlider("Total runs:")->setValue(100);
+	}
+}
+void Gui::onRunEvent(ofxDatGuiButtonEvent e) {
+	if (e.target->is("Run simulation")) {
+		std::cout << "run simulation" << std::endl;
+	}
+}
+
+void Gui::setupDuelRunner() {
+	duel_runner_gui->addHeader("::Duel Runner::");
+	duel_runner_gui->addButton("Run simulation")
+		->setLabelAlignment(ofxDatGuiAlignment::CENTER);
+	duel_runner_gui->addToggle("Run long-run analysis?");
+	duel_runner_gui->addSlider("Total runs:", 0, 10000, 1)->setPrecision(0);
+	//to display as an int rather than the default float
+	duel_runner_gui->getSlider("Total runs:")->setValue(100);
+
+	duel_runner_gui->onButtonEvent(this, &Gui::onRunEvent);
+	duel_runner_gui->onSliderEvent(this, &Gui::onSetRunsEvent);
 }
 
 void Gui::onLookupEvent(ofxDatGuiButtonEvent e) {
@@ -106,7 +131,7 @@ void Gui::onLookupEvent(ofxDatGuiButtonEvent e) {
 	}
 	else
 	{
-		ofLogNotice("Gui::OnButtonEvent") << "Failed to parse JSON" << endl;
+		ofLogNotice("Gui::OnLookupEvent") << "Failed to parse JSON" << endl;
 	}
 }
 
@@ -119,7 +144,7 @@ int Gui::computePlayerTotal(int player_id) {
 		gui = player_two_gui;
 	}
 	else {
-		return -1; //private method should not return -1 if arguments are 1 or 2
+		return -1; //private method should not return -1 if player_id argument is 1 or 2
 	}
 
 	int total_stat_value = gui->getSlider("Attack:")->getValue()
@@ -130,7 +155,7 @@ int Gui::computePlayerTotal(int player_id) {
 	return total_stat_value;
 }
 
-void Gui::onSliderEvent(ofxDatGuiSliderEvent e) {
+void Gui::onStatChangeEvent(ofxDatGuiSliderEvent e) {
 	if (e.target->is("Hitpoints:") && e.target->getValue() < 10) {
 		e.target->setValue(10);
 	}
@@ -174,7 +199,7 @@ void Gui::onRandomizeEvent(ofxDatGuiButtonEvent e) {
 
 		//generate random player data for the second player until the total value of their stats
 		//are within a similarity threshold compared to the first player
-		int stats_similarity_threshold = randomizer_gui->getSlider("Difference:")->getValue();
+		int stats_similarity_threshold = randomizer_gui->getSlider("Max total dif:")->getValue();
 		while (!(abs(player_two_total_stat_value - player_one_total_stat_value) <= stats_similarity_threshold)) {
 			setRandomStats(2);
 			player_two_total_stat_value = computePlayerTotal(2);

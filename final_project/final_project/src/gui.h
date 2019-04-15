@@ -1,6 +1,5 @@
 #pragma once
 
-#include "ofMain.h"
 #include "ofxDatGui.h"
 #include "ofxJSON.h"
 
@@ -10,18 +9,22 @@ public:
 	void setup();
 
 private:
-	ofxDatGui* player_one_gui = new ofxDatGui(0, ofGetHeight() / 2);
-	ofxDatGui* player_two_gui = new ofxDatGui(ofGetWidth() / 2, ofGetHeight() / 2);
-	ofxDatGui* randomizer_gui = new ofxDatGui(ofxDatGuiAnchor::TOP_LEFT);
+	ofxDatGui* randomizer_gui = new ofxDatGui(0, 0);
+	ofxDatGui* player_one_gui = new ofxDatGui(0, 0.15 * ofGetWindowHeight());
+	ofxDatGui* player_two_gui = new ofxDatGui(0, 0.50 * ofGetWindowHeight());
+	ofxDatGui* duel_runner_gui = new ofxDatGui(0, 0.85 * ofGetWindowHeight());
 	ofxJSONElement result;
 
 	void setupPlayer(int player_id);
 	void setupRandomizer();
+	void setupDuelRunner();
 
 	void onLookupEvent(ofxDatGuiButtonEvent e);
 	int computePlayerTotal(int player_id);
-	void onSliderEvent(ofxDatGuiSliderEvent e);
+	void onStatChangeEvent(ofxDatGuiSliderEvent e);
 	void setRandomStats(int player_id);
 	void onRandomizeEvent(ofxDatGuiButtonEvent e);
+	void onRunEvent(ofxDatGuiButtonEvent e);
+	void onSetRunsEvent(ofxDatGuiSliderEvent e);
 
 };
