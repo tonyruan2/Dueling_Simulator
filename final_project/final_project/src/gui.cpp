@@ -116,10 +116,12 @@ void Gui::onLookupEvent(ofxDatGuiButtonEvent e) {
 	if (e.target->is("LOOKUP PLAYER ONE")) {
 		gui = player_one_gui;
 		player_id = 1;
+		player_one_gui->getDropdown("Weapon")->select(0);
 	}
 	else  if (e.target->is("LOOKUP PLAYER TWO")) {
 		gui = player_two_gui;
 		player_id = 2;
+		player_two_gui->getDropdown("Weapon")->select(0);
 	}
 	else {
 		return;
@@ -132,8 +134,8 @@ void Gui::onLookupEvent(ofxDatGuiButtonEvent e) {
 
 	if (parsingSuccessful)
 	{
-		std::cout << result.getRawString() << std::endl;
 		if (result["status"].asString() == "success") {
+			reset_in_progress = true;
 			gui->getSlider("Attack:")
 				->setValue(stoi(result["stats"]["attack"]["level"].asString()));
 			gui->getSlider("Strength:")
@@ -142,6 +144,7 @@ void Gui::onLookupEvent(ofxDatGuiButtonEvent e) {
 				->setValue(stoi(result["stats"]["defence"]["level"].asString()));
 			gui->getSlider("Hitpoints:")
 				->setValue(stoi(result["stats"]["hitpoints"]["level"].asString()));
+			reset_in_progress = false;
 		}
 		else {
 			gui->getTextInput("Player name:")->setText("[INVALID NAME]");
@@ -179,7 +182,7 @@ void Gui::onStatChangeEvent(ofxDatGuiSliderEvent e) {
 	}
 	
 	//Abyssal tentacle requires an attack level of at least 75 to use
-	if (e.target->is("Attack:")) {
+	if (e.target->is("Attack:") && !reset_in_progress) {
 		if (player_one_gui->getSlider("Attack:")->getValue() < 75
 			&& player_one_gui->getDropdown("Weapon")->getSelected()->getLabel() == "Abyssal Tentacle") {
 			std::cout << "onStatChange" << std::endl;
@@ -218,14 +221,14 @@ void Gui::setRandomStats(int player_id) {
 
 void Gui::resetPlayerData() {
 	player_one_gui->getTextInput("Player name:")->setText("");
-	player_one_gui->getDropdown("Weapon")->select(0);
 
-	//
-	std::cout << "reset" << std::endl;
-	std::cout << player_one_gui->getDropdown("Weapon")->getSelected()->getLabel() << std::endl;
-	//
+	player_one_gui->getDropdown("Weapon")->select(0); //select only visually updates the GUI
+	//subsequent call to getSelected() doesn't return the proper value
+
 	player_two_gui->getTextInput("Player name:")->setText("");
 	player_two_gui->getDropdown("Weapon")->select(0);
+
+	std::cout << "After selecting" << player_one_gui->getDropdown("Weapon")->getSelected()->getLabel() << std::endl;
 }
 
 void Gui::onRandomizeEvent(ofxDatGuiButtonEvent e) {
@@ -233,6 +236,7 @@ void Gui::onRandomizeEvent(ofxDatGuiButtonEvent e) {
 		return;
 	}
 
+	reset_in_progress = true;
 	resetPlayerData();
 
 	bool generate_similar = randomizer_gui->getToggle("Ensure similar total stats?")->getChecked();
@@ -254,4 +258,7 @@ void Gui::onRandomizeEvent(ofxDatGuiButtonEvent e) {
 		setRandomStats(1);
 		setRandomStats(2);
 	}
+
+	reset_in_progress = false;
+	std::cout << "After player stat gen" << player_one_gui->getDropdown("Weapon")->getSelected()->getLabel() << std::endl;
 }

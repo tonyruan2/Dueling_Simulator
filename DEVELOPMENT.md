@@ -48,8 +48,13 @@ never falls below 75. During the generation of random players, I make sure to se
 new stats. This should, in theory, cause no limitation to be placed. However, it appears that the player's weapon does not get reset 
 properly. Visually, it does--the dropdown option changes to "Unarmed"--but printing the selected dropdown after selecting unarmed 
 displays the abyssal tentacle instead. I'm not sure why the code to select an option in the dropdown doesn't change what's returned by a
-subsequent get() method on that option. However, if I manually reselect "Unarmed" (though "Unarmed is already selected"), then the player's 
+subsequent getSelected() method on that option. However, if I manually reselect "Unarmed" (though "Unarmed is already selected"), then the player's 
 data is randomly generated.
+
+UPDATE: After testing in a separate application, it appears getSelected() only takes into account what was manually selected in the 
+dropdown menu by the user. This makes sense with the fact that the program appears to fix itself when I manually select a weapon. 
+getSelected() doesn't update when the program (code) selects something. I'll have to keep track of what the user and program selects, 
+probably in a private variable. I'll also have to modify my code accordingly.
 
 ## List of major tasks
 - [ ] Project structure/classes
