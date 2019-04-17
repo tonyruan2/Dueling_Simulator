@@ -3,7 +3,7 @@
 //--------------------------------------------------------------
 void ofApp::setup() {
 	ofSetWindowTitle("Old School Runescape Duel Simulator");
-	gui.setup();
+	user_gui.setup();
 }
 
 //--------------------------------------------------------------

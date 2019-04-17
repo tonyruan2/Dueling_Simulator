@@ -68,6 +68,11 @@ about this more, I like this implementation. If a user wanted to simulate an una
 to be between players that use abyssal tentacles that require an attack level, then the randomly generated players should have an attack of at least 75 to 
 follow game rules.
 
+# Wednesday, April 17th, 2019
+I updated how the GUI looks by adding some color to buttons and making them highlight when hovered. Another change I made was that the input for a player's name 
+resets to 12 characters (the max length of a username). Users can still input as many characters in the box because input isn't read until after the box is exited, 
+but any inputs longer than 12 characters will be reduced to the first 12 characters.
+
 ## List of major tasks
 - [ ] Project structure/classes
 - [ ] Test cases
