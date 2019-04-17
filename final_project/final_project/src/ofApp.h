@@ -24,5 +24,5 @@ public:
 	void dragEvent(ofDragInfo dragInfo);
 	void gotMessage(ofMessage msg);
 
-	Gui user_gui;
+	Gui gui;
 };
