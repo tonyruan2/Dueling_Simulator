@@ -46,15 +46,27 @@ is selected for that player.
 The bug occurs when the "Abyssal Tentacle" option for a player is selected. When I click generate random players, the new player's attack
 never falls below 75. During the generation of random players, I make sure to select the unarmed option for each player before generating 
 new stats. This should, in theory, cause no limitation to be placed. However, it appears that the player's weapon does not get reset 
-properly. Visually, it does--the dropdown option changes to "Unarmed"--but printing the selected dropdown after selecting unarmed 
-displays the abyssal tentacle instead. I'm not sure why the code to select an option in the dropdown doesn't change what's returned by a
-subsequent getSelected() method on that option. However, if I manually reselect "Unarmed" (though "Unarmed is already selected"), then the player's 
-data is randomly generated.
+properly when I call the select() method. Visually, it does--the dropdown option changes to "Unarmed"--but printing the selected dropdown 
+after selecting unarmed displays the abyssal tentacle instead. I'm not sure why the code to select an option in the dropdown doesn't change what's 
+returned by asubsequent getSelected() method on that option. However, if I manually reselect "Unarmed" (though "Unarmed" is already selected), then 
+the player's data is randomly generated.
 
 UPDATE: After testing in a separate application, it appears getSelected() only takes into account what was manually selected in the 
-dropdown menu by the user. This makes sense with the fact that the program appears to fix itself when I manually select a weapon. 
-getSelected() doesn't update when the program (code) selects something. I'll have to keep track of what the user and program selects, 
+dropdown menu by the user. This makes sense with the program appearing to fix itself when I manually select a weapon. 
+getSelected() doesn't update when the program (through the code I have written) selects something. I'll have to keep track of what the user and program selects, 
 probably in a private variable. I'll also have to modify my code accordingly.
+
+# Tuesday, April 16th, 2019
+After trying for a few hours to find a work-around to the unexpected getSelected() functionality, I couldn't find a way to store what 
+the user selects. There isn't a way for me to update what the player has selected in the weapon dropdown without a call to getSelected(). And, as 
+I found out yesterday, getSelected() does not update when I force a selection of a new option through using the gui select() method. This means that I 
+can only visually reset what the user sees in the dropdown menu, but the program thinks that the previous option is still selected.
+
+I've decided to leave the so-called 'bug' as a feature. If the user is trying to generate random stats with an abyssal tentacle as their weapon, then 
+it makes sense NOT to reset the attack option to "Unarmed" and instead force the 'randomly' generated player to have attack level of at least 75. Thinking 
+about this more, I like this implementation. If a user wanted to simulate an unarmed fight, then generate random should do just that. If a user wants a fight 
+to be between players that use abyssal tentacles that require an attack level, then the randomly generated players should have an attack of at least 75 to 
+follow game rules.
 
 ## List of major tasks
 - [ ] Project structure/classes

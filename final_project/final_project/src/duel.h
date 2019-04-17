@@ -23,9 +23,9 @@ private:
 
 		double attack_speed;
 
-		Player();
-		void setAttributes(int attack_level, int strength_level,
+		Player(int attack_level, int strength_level,
 			int hitpoints_level, int defence_level, std::string weapon);
+
 	};
 
 	Player player_one;

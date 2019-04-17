@@ -9,7 +9,6 @@ public:
 	void setup();
 
 private:
-	bool reset_in_progress;
 	ofxDatGui* randomizer_gui = new ofxDatGui(0, 0);
 	ofxDatGui* player_one_gui = new ofxDatGui(0, 0.15 * ofGetWindowHeight());
 	ofxDatGui* player_two_gui = new ofxDatGui(0, 0.50 * ofGetWindowHeight());
