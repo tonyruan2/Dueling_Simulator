@@ -73,9 +73,18 @@ I updated how the GUI looks by adding some color to buttons and making them high
 resets to 12 characters (the max length of a username). Users can still input as many characters in the box because input isn't read until after the box is exited, 
 but any inputs longer than 12 characters will be reduced to the first 12 characters.
 
+## Priorities for 4/24 code review
+- link up item api for weapons
+- start work on duel.cpp and the simulator
+- have to look into timings, getting videos to play for simulation, and calculations for long-run analysis
+- test json parsing?
+- find a background picture
+
+- if extra time, work on displaying the data (and clearing it if a new simulation is run)
+
 ## List of major tasks
 - [ ] Project structure/classes
-- [ ] Test cases
+- [ ] Test cases (json?)
 - [ ] GUI design and layout
 - [ ] Random stat generator button
 - [ ] Damage/Accuracy calculations
