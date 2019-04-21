@@ -391,7 +391,32 @@ void Gui::onSetRunsEvent(ofxDatGuiSliderEvent e) {
 void Gui::onRunEvent(ofxDatGuiButtonEvent e) {
 	if (e.target->is("Run simulation")) {
 		
-		//code to run simulation here
-		std::cout << "run simulation" << std::endl;
+		Duel::Player player_one;
+		player_one.setStats(1, player_one_gui->getSlider("Attack:")->getValue(),
+			player_one_gui->getSlider("Strength:")->getValue(),
+			player_one_gui->getSlider("Defence:")->getValue(),
+			player_one_gui->getSlider("Hitpoints:")->getValue());
+
+		player_one.setCombatSpecs(player_one_gui->getDropdown("Attack style")->getSelected()->getLabel(),
+			player_one_gui->getDropdown("Weapon")->getSelected()->getLabel(),
+			weapon_ids.at(player_one_gui->getDropdown("Weapon")->getSelected()->getIndex()),
+			weapon_attack_styles.at(player_one_gui->getDropdown("Weapon")->getSelected()->getIndex()),
+			player_one_gui->getToggle("Alternate attack style?")->getChecked());
+
+		Duel::Player player_two;
+		player_two.setStats(2, player_two_gui->getSlider("Attack:")->getValue(),
+			player_two_gui->getSlider("Strength:")->getValue(),
+			player_two_gui->getSlider("Defence:")->getValue(),
+			player_two_gui->getSlider("Hitpoints:")->getValue());
+
+		player_two.setCombatSpecs(player_two_gui->getDropdown("Attack style")->getSelected()->getLabel(),
+			player_two_gui->getDropdown("Weapon")->getSelected()->getLabel(),
+			weapon_ids.at(player_two_gui->getDropdown("Weapon")->getSelected()->getIndex()),
+			weapon_attack_styles.at(player_two_gui->getDropdown("Weapon")->getSelected()->getIndex()),
+			player_two_gui->getToggle("Alternate attack style?")->getChecked());
+
+		duel.runSimulation(player_one, player_two,
+			duel_runner_gui->getToggle("Run long-run analysis?")->getChecked(),
+			duel_runner_gui->getSlider("Total runs:")->getValue());
 	}
 }

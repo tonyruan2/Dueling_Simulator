@@ -83,6 +83,9 @@ I implemented JSON support for weapons in my GUI. Now, weapon data (attack style
 the API to enforce level requirements in the GUI. If a user selects a weapon that a player does not have the attack level for, the player's attack level will change
 in the GUI. This enforcement was hard-coded before, but now it uses data taken directly from the API. This means I can add as many weapons as I want in the future.
 
+I also tied together my gui class and duel class. My duel class now supports the creation of two players using data from the gui class. I also added a function
+that calculates the max hit of a player.
+
 ## Priorities for 4/24 code review
 - link up item api for weapons
 - start work on duel.cpp and the simulator
