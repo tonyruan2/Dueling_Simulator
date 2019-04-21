@@ -73,6 +73,16 @@ I updated how the GUI looks by adding some color to buttons and making them high
 resets to 12 characters (the max length of a username). Users can still input as many characters in the box because input isn't read until after the box is exited, 
 but any inputs longer than 12 characters will be reduced to the first 12 characters.
 
+# Saturday, April 20th, 2019
+I modified the duel.h and duel.cpp files. Now, the duel has a public struct for a Player, but the duel class itself has private variables to manage player data during
+the duel. Previously, the player's data (in addition to what was initially set in the GUI) was all publicly exposed. This has been corrected. The Player struct now
+only contains GUI information that the user can choose when they create the players.
+
+# Sunday, April 21st, 2019
+I implemented JSON support for weapons in my GUI. Now, weapon data (attack styles, requirements, etc) is fetched from a weapon api. Moreover, I also use data from
+the API to enforce level requirements in the GUI. If a user selects a weapon that a player does not have the attack level for, the player's attack level will change
+in the GUI. This enforcement was hard-coded before, but now it uses data taken directly from the API. This means I can add as many weapons as I want in the future.
+
 ## Priorities for 4/24 code review
 - link up item api for weapons
 - start work on duel.cpp and the simulator

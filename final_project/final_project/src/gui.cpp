@@ -6,6 +6,7 @@ void Gui::setup() {
 	setupPlayer(2);
 	setupRandomizer();
 	setupDuelRunner();
+	parseWeaponJson();
 }
 
 void Gui::setupPlayer(int player_id) {
@@ -54,7 +55,9 @@ void Gui::setupPlayer(int player_id) {
 	//to display as an int rather than the default float
 	gui->getSlider("Total value:")->setValue(computePlayerTotal(player_id));
 
-	gui->addDropdown("Attack style", attack_styles)->select(0);
+	gui->addDropdown("Attack style", unarmed_attack_styles)->select(0);
+	gui->getDropdown("Attack style")->getChildAt(3)->setVisible(false);
+
 	gui->addDropdown("Weapon", weapons)->select(0);
 	gui->addToggle("Alternate attack style?", false);
 
@@ -141,22 +144,22 @@ void Gui::setRandomStats(int player_id) {
 	gui->getSlider("Hitpoints:")->setValue(rand() % 100 + 10);
 }
 
-void Gui::parseJsonFromUrl(ofxDatGui* gui, std::string url) {
-	bool parsingSuccessful = result.open(url);
+void Gui::parsePlayerJson(ofxDatGui* gui, std::string url) {
+	bool parsingSuccessful = player_json_result.open(url);
 
 	if (parsingSuccessful)
 	{
-		if (result["status"].asString() == "success") {
+		if (player_json_result["status"].asString() == "success") {
 			gui->getTextInput("Player name:")
 				->setBackgroundColor(ofColor(0, 0, 0));
 			gui->getSlider("Attack:")
-				->setValue(stoi(result["stats"]["attack"]["level"].asString()));
+				->setValue(stoi(player_json_result["stats"]["attack"]["level"].asString()));
 			gui->getSlider("Strength:")
-				->setValue(stoi(result["stats"]["strength"]["level"].asString()));
+				->setValue(stoi(player_json_result["stats"]["strength"]["level"].asString()));
 			gui->getSlider("Defence:")
-				->setValue(stoi(result["stats"]["defence"]["level"].asString()));
+				->setValue(stoi(player_json_result["stats"]["defence"]["level"].asString()));
 			gui->getSlider("Hitpoints:")
-				->setValue(stoi(result["stats"]["hitpoints"]["level"].asString()));
+				->setValue(stoi(player_json_result["stats"]["hitpoints"]["level"].asString()));
 		}
 		else {
 			gui->getTextInput("Player name:")->setText("##INVALID_NAME##");
@@ -164,9 +167,44 @@ void Gui::parseJsonFromUrl(ofxDatGui* gui, std::string url) {
 				->setBackgroundColor(ofColor(255, 0, 0));
 		}
 	}
-	else
-	{
-		ofLogNotice("Gui::parseJsonFromUrl") << "Failed to parse JSON" << endl;
+}
+
+void Gui::parseWeaponJson() {
+	weapon_attack_styles.push_back(unarmed_attack_styles);
+
+	for (int weapon_i = 1; weapon_i < weapons.size(); weapon_i++) {
+		std::string url = "https://www.osrsbox.com/osrsbox-db/items-json/"
+		+ weapon_ids.at(weapon_i) + ".json";
+
+		bool parsingSuccessful = weapon_json_result.open(url);
+
+		if (parsingSuccessful) {
+			weapon_attack_reqs.push_back(
+			std::stoi(weapon_json_result["equipment"]["requirements"]["attack"].asString()));
+		
+			std::vector<std::string> styles;
+
+			for (Json::ArrayIndex stance_i = 0;
+				stance_i < weapon_json_result["weapon"]["stances"].size(); stance_i++) {
+				std::string attack_style = "";
+				attack_style.append(weapon_json_result["weapon"]["stances"]
+					[stance_i]["combat_style"].asString());
+				attack_style.append(" (");
+				attack_style.append(weapon_json_result["weapon"]["stances"]
+					[stance_i]["attack_style"].asString());
+				attack_style.append(", ");
+				attack_style.append(weapon_json_result["weapon"]["stances"]
+					[stance_i]["attack_type"].asString());
+				attack_style.append(")");
+				styles.push_back(attack_style);
+			}
+
+			if (weapon_json_result["weapon"]["stances"].size() < max_num_attack_styles) {
+				styles.push_back(styles.at(0));
+			}
+
+			weapon_attack_styles.push_back(styles);
+		}
 	}
 }
 
@@ -175,7 +213,7 @@ void Gui::onNameInputEvent(ofxDatGuiTextInputEvent e) {
 		return;
 	}
 
-	//user input stopped at 12 characters
+	//user input is truncated at 12 characters
 	if (player_one_gui->getTextInput("Player name:")
 		->getText().length() > max_username_length) {
 		player_one_gui->getTextInput("Player name:")
@@ -213,7 +251,8 @@ void Gui::onLookupEvent(ofxDatGuiButtonEvent e) {
 
 	std::string url = "http://www.sudo.tf/api/hiscores/grab.php?rsn="
 		+ gui->getTextInput("Player name:")->getText();
-	parseJsonFromUrl(gui, url);
+
+	parsePlayerJson(gui, url);
 }
 
 void Gui::onStatChangeEvent(ofxDatGuiSliderEvent e) {
@@ -221,18 +260,28 @@ void Gui::onStatChangeEvent(ofxDatGuiSliderEvent e) {
 		e.target->setValue(10);
 	}
 
-	//Abyssal tentacle requires an attack level of at least 75 to use
+	//Enforce attack requirements for weapons
 	if (e.target->is("Attack:")) {
-		if (player_one_gui->getSlider("Attack:")->getValue() < 75
-			&& player_one_gui->getDropdown("Weapon")
-			->getSelected()->getLabel() == "Abyssal Tentacle") {
-			player_one_gui->getSlider("Attack:")->setValue(75);
-		}
+		for (int weapon_i = 0; weapon_i < weapons.size(); weapon_i++) {
+			if ((player_one_gui->getDropdown("Weapon")
+				->getSelected()->getLabel() == weapons.at(weapon_i)) 
+				&& player_one_gui->getSlider("Attack:")
+				->getValue() < weapon_attack_reqs.at(weapon_i)) {
 
-		if (player_two_gui->getSlider("Attack:")->getValue() < 75
-			&& player_two_gui->getDropdown("Weapon")
-			->getSelected()->getLabel() == "Abyssal Tentacle") {
-			player_two_gui->getSlider("Attack:")->setValue(75);
+				player_one_gui->getSlider("Attack:")
+					->setValue(weapon_attack_reqs.at(weapon_i));
+				return;
+			}
+
+			if ((player_two_gui->getDropdown("Weapon")
+				->getSelected()->getLabel() == weapons.at(weapon_i))
+				&& player_two_gui->getSlider("Attack:")
+				->getValue() < weapon_attack_reqs.at(weapon_i)) {
+
+				player_two_gui->getSlider("Attack:")
+					->setValue(weapon_attack_reqs.at(weapon_i));
+				return;
+			}
 		}
 	}
 
@@ -241,18 +290,59 @@ void Gui::onStatChangeEvent(ofxDatGuiSliderEvent e) {
 }
 
 void Gui::onWeaponChangeEvent(ofxDatGuiDropdownEvent e) {
-	//selecting abyssal tencale changes a player's attack level to 75 
-	//if it is below it (this is a stat requirement)
-	if (e.target->is("Weapon")) {
-		if ((player_one_gui->getDropdown("Weapon")
-			->getSelected()->getLabel() == "Abyssal Tentacle")
-			&& player_one_gui->getSlider("Attack:")->getValue() < 75) {
-			player_one_gui->getSlider("Attack:")->setValue(75);
+	ofxDatGui* gui;
+
+	for (int gui_i = 1; gui_i <= 2; gui_i++) {
+		if (gui_i == 1) {
+			gui = player_one_gui;
 		}
-		if ((player_two_gui->getDropdown("Weapon")
-			->getSelected()->getLabel() == "Abyssal Tentacle")
-			&& player_two_gui->getSlider("Attack:")->getValue() < 75) {
-			player_two_gui->getSlider("Attack:")->setValue(75);
+		else {
+			gui = player_two_gui;
+		}
+
+		//Enforce the attack requirements for weapons.
+		if (e.target->is("Weapon")) {
+			for (int weapon_i = 0; weapon_i < weapons.size(); weapon_i++) {
+				if ((gui->getDropdown("Weapon")
+					->getSelected()->getLabel() == weapons.at(weapon_i))) {
+
+					//"Unarmed" and weapons with three attack styles have the fourth attack
+					//style hidden.
+					if (weapons.at(weapon_i) == "Unarmed" ||
+						(weapon_attack_styles.at(weapon_i).at(0) ==
+							weapon_attack_styles.at(weapon_i).at(max_num_attack_styles - 1))) {
+
+						gui->getDropdown("Attack style")
+							->getChildAt(max_num_attack_styles - 1)->setVisible(false);
+					}
+					else {
+						gui->getDropdown("Attack style")
+							->getChildAt(max_num_attack_styles - 1)->setVisible(true);
+					}
+
+
+					for (int style_i = 0;
+						style_i < weapon_attack_styles.at(weapon_i).size(); style_i++) {
+						gui->getDropdown("Attack style")
+							->getChildAt(style_i)
+							->setLabel(weapon_attack_styles.at(weapon_i).at(style_i));
+					}
+
+
+					gui->getDropdown("Attack style")->setLabel(
+						gui->getDropdown("Attack style")
+						->getSelected()->getLabel());
+
+					if (gui->getSlider("Attack:")
+						->getValue() < weapon_attack_reqs.at(weapon_i)) {
+
+						gui->getSlider("Attack:")
+							->setValue(weapon_attack_reqs.at(weapon_i));
+					}
+					break;
+				}
+			}
+
 		}
 	}
 }
@@ -297,8 +387,10 @@ void Gui::onSetRunsEvent(ofxDatGuiSliderEvent e) {
 		duel_runner_gui->getSlider("Total runs:")->setValue(100);
 	}
 }
+
 void Gui::onRunEvent(ofxDatGuiButtonEvent e) {
 	if (e.target->is("Run simulation")) {
+		
 		//code to run simulation here
 		std::cout << "run simulation" << std::endl;
 	}
