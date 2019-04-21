@@ -55,11 +55,11 @@ void Gui::setupPlayer(int player_id) {
 	//to display as an int rather than the default float
 	gui->getSlider("Total value:")->setValue(computePlayerTotal(player_id));
 
-	gui->addDropdown("Attack style", unarmed_attack_styles)->select(0);
-	gui->getDropdown("Attack style")->getChildAt(3)->setVisible(false);
+	gui->addDropdown("Weapon style", unarmed_weapon_styles)->select(0);
+	gui->getDropdown("Weapon style")->getChildAt(3)->setVisible(false);
 
 	gui->addDropdown("Weapon", weapons)->select(0);
-	gui->addToggle("Alternate attack style?", false);
+	gui->addToggle("Alternate weapon style?", false);
 
 	gui->onTextInputEvent(this, &Gui::onNameInputEvent);
 	gui->onButtonEvent(this, &Gui::onLookupEvent);
@@ -170,7 +170,7 @@ void Gui::parsePlayerJson(ofxDatGui* gui, std::string url) {
 }
 
 void Gui::parseWeaponJson() {
-	weapon_attack_styles.push_back(unarmed_attack_styles);
+	weapon_styles.push_back(unarmed_weapon_styles);
 
 	for (int weapon_i = 1; weapon_i < weapons.size(); weapon_i++) {
 		std::string url = "https://www.osrsbox.com/osrsbox-db/items-json/"
@@ -203,7 +203,7 @@ void Gui::parseWeaponJson() {
 				styles.push_back(styles.at(0));
 			}
 
-			weapon_attack_styles.push_back(styles);
+			weapon_styles.push_back(styles);
 		}
 	}
 }
@@ -306,31 +306,31 @@ void Gui::onWeaponChangeEvent(ofxDatGuiDropdownEvent e) {
 				if ((gui->getDropdown("Weapon")
 					->getSelected()->getLabel() == weapons.at(weapon_i))) {
 
-					//"Unarmed" and weapons with three attack styles have the fourth attack
+					//"Unarmed" and weapons with three weapon styles have the fourth weapon
 					//style hidden.
 					if (weapons.at(weapon_i) == "Unarmed" ||
-						(weapon_attack_styles.at(weapon_i).at(0) ==
-							weapon_attack_styles.at(weapon_i).at(max_num_attack_styles - 1))) {
+						(weapon_styles.at(weapon_i).at(0) ==
+							weapon_styles.at(weapon_i).at(max_num_attack_styles - 1))) {
 
-						gui->getDropdown("Attack style")
+						gui->getDropdown("Weapon style")
 							->getChildAt(max_num_attack_styles - 1)->setVisible(false);
 					}
 					else {
-						gui->getDropdown("Attack style")
+						gui->getDropdown("Weapon style")
 							->getChildAt(max_num_attack_styles - 1)->setVisible(true);
 					}
 
 
 					for (int style_i = 0;
-						style_i < weapon_attack_styles.at(weapon_i).size(); style_i++) {
-						gui->getDropdown("Attack style")
+						style_i < weapon_styles.at(weapon_i).size(); style_i++) {
+						gui->getDropdown("Weapon style")
 							->getChildAt(style_i)
-							->setLabel(weapon_attack_styles.at(weapon_i).at(style_i));
+							->setLabel(weapon_styles.at(weapon_i).at(style_i));
 					}
 
 
-					gui->getDropdown("Attack style")->setLabel(
-						gui->getDropdown("Attack style")
+					gui->getDropdown("Weapon style")->setLabel(
+						gui->getDropdown("Weapon style")
 						->getSelected()->getLabel());
 
 					if (gui->getSlider("Attack:")
@@ -397,11 +397,11 @@ void Gui::onRunEvent(ofxDatGuiButtonEvent e) {
 			player_one_gui->getSlider("Defence:")->getValue(),
 			player_one_gui->getSlider("Hitpoints:")->getValue());
 
-		player_one.setCombatSpecs(player_one_gui->getDropdown("Attack style")->getSelected()->getLabel(),
+		player_one.setCombatSpecs(player_one_gui->getDropdown("Weapon style")->getSelected()->getLabel(),
 			player_one_gui->getDropdown("Weapon")->getSelected()->getLabel(),
 			weapon_ids.at(player_one_gui->getDropdown("Weapon")->getSelected()->getIndex()),
-			weapon_attack_styles.at(player_one_gui->getDropdown("Weapon")->getSelected()->getIndex()),
-			player_one_gui->getToggle("Alternate attack style?")->getChecked());
+			weapon_styles.at(player_one_gui->getDropdown("Weapon")->getSelected()->getIndex()),
+			player_one_gui->getToggle("Alternate weapon style?")->getChecked());
 
 		Duel::Player player_two;
 		player_two.setStats(2, player_two_gui->getSlider("Attack:")->getValue(),
@@ -409,11 +409,11 @@ void Gui::onRunEvent(ofxDatGuiButtonEvent e) {
 			player_two_gui->getSlider("Defence:")->getValue(),
 			player_two_gui->getSlider("Hitpoints:")->getValue());
 
-		player_two.setCombatSpecs(player_two_gui->getDropdown("Attack style")->getSelected()->getLabel(),
+		player_two.setCombatSpecs(player_two_gui->getDropdown("Weapon style")->getSelected()->getLabel(),
 			player_two_gui->getDropdown("Weapon")->getSelected()->getLabel(),
 			weapon_ids.at(player_two_gui->getDropdown("Weapon")->getSelected()->getIndex()),
-			weapon_attack_styles.at(player_two_gui->getDropdown("Weapon")->getSelected()->getIndex()),
-			player_two_gui->getToggle("Alternate attack style?")->getChecked());
+			weapon_styles.at(player_two_gui->getDropdown("Weapon")->getSelected()->getIndex()),
+			player_two_gui->getToggle("Alternate weapon style?")->getChecked());
 
 		duel.runSimulation(player_one, player_two,
 			duel_runner_gui->getToggle("Run long-run analysis?")->getChecked(),

@@ -17,12 +17,12 @@ private:
 	//Used to run a simulation with the option of a long-run analysis.
 	Duel duel;
 
-	//The attack styles that a player can use. Each adds a different set of bonuses to their stats.
-	std::vector<std::vector<std::string>> weapon_attack_styles;
+	//The weapon styles that a player can use. Each adds a different set of bonuses to their stats.
+	std::vector<std::vector<std::string>> weapon_styles;
 
-	//Unarmed attack styles. The last attack style is the same as the first
+	//Unarmed weapon styles. The last weapon style is the same as the first
 	//to allow players to change from three style weapons to four style weapons and vice versa.
-	std::vector<std::string> unarmed_attack_styles
+	std::vector<std::string> unarmed_weapon_styles
 		= { "punch (accurate, crush)", "kick (aggressive, crush)", "block (defensive, crush)", "punch (accurate, crush)" };
 
 	//The list of weapons in the duel.

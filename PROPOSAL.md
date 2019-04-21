@@ -33,6 +33,7 @@ of them.
 - Comprehensive combat formulas: http://services.runescape.com/m=forum/forums.ws?317,318,712,65587452,goto,1
 - Video with accuracy formula: https://www.youtube.com/watch?v=Ucvn8hQEs2A
 - OSRS wiki page with max hit formula: https://oldschool.runescape.wiki/w/Maximum_melee_hit
+- Overview of combat formulas: https://www.osrsbox.com/blog/2019/01/22/calculating-melee-dps-in-osrs/#1-calculating-max-hit
 - Player data API: http://www.sudo.tf/api/hiscores/grab.php?rsn=
 - Item API for weapons: https://www.osrsbox.com/projects/osrsbox-db/#accessing-the-json-api
 - openFrameworks tutorial videos by Lewis Lempton: https://www.youtube.com/watch?v=IKSTo_0pB28&list=PL4neAtv21WOmrV8z9rSzL20QpdLU1zJLr&index=1

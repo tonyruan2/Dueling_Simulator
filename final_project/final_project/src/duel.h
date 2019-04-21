@@ -15,7 +15,7 @@ public:
 		int strength_level;
 		int hitpoints_level;
 		int defence_level;
-		std::string attack_style;
+		std::string selected_weapon_style;
 		std::string weapon;
 		std::vector<std::string> weapon_styles;
 		std::string weapon_id;
@@ -26,7 +26,7 @@ public:
 			int defence_level, int hitpoints_level);
 
 		//Set the combat specifications of the player.
-		void setCombatSpecs(std::string attack_style, std::string weapon,
+		void setCombatSpecs(std::string selected_weapon_style, std::string weapon,
 			std::string weapon_id, std::vector<std::string> weapon_styles,
 			bool alternating_styles);
 	};
@@ -46,6 +46,14 @@ private:
 		std::pair<std::string, std::vector<int>>("aggressive", std::vector<int> {0, 3, 0}),
 		std::pair<std::string, std::vector<int>>("controlled", std::vector<int> {1, 1, 1}),
 		std::pair<std::string, std::vector<int>>("defensive", std::vector<int> {0, 0, 3}),
+	};
+
+	//Attack styles. Weapons tend to be superior in one or two and
+	//lackluster in the others.
+	std::vector<std::string> attack_styles = std::vector<std::string>{
+		"stab",
+		"slash",
+		"crush"
 	};
 
 	int player_one_current_hitpoints;
@@ -69,11 +77,23 @@ private:
 	//Add data to represent the players are "unarmed".
 	void addUnarmedData(int player_id);
 
+	//Find the stance of a player.
+	std::string findStance(Player player);
+
 	//Compute the max hit of a player.
 	int computeMaxHit(Player player);
 
+	//Find the attack style of a player.
+	std::string findAttackStyle(Player player);
+
+	//Compute the Max Attack Roll for a player.
+	int computeMaxAttackRoll(Player player);
+
+	//Compute the Max Defence Roll for a player.
+	int computeMaxDefenceRoll(Player player);
+
 	//Compute the accuracy of an attacking player against a defending player.
-	int computeAccuracy(Player attacker, Player defender);
+	double computeAccuracy(Player attacker, Player defender);
 
 	//Return the style which provides the maximum damage per second for a player.
 	std::string computeMaxDamagePerSecStyle(Player player);
