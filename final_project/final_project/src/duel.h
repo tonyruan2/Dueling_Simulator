@@ -56,6 +56,8 @@ private:
 		"crush"
 	};
 
+	double game_tick = 0.6;
+
 	int player_one_current_hitpoints;
 	std::string player_one_current_style;
 	std::map<std::string, int> player_one_weapon_bonuses;
@@ -95,12 +97,15 @@ private:
 	//Compute the accuracy of an attacking player against a defending player.
 	double computeAccuracy(Player attacker, Player defender);
 
+	void inflictDamage(Player attacker, Player defender);
+
 	//Return the style which provides the maximum damage per second for a player.
 	std::string computeMaxDamagePerSecStyle(Player player);
 
 	//Run a duel between the players.
-	void runDuel(Player &player_one, Player &player_two);
+	//Return the id of the winner.
+	int runDuel(Player player_one, Player player_two);
 
 	//Run a long-run analysis of two players dueling.
-	void runAnalysis(int num_runs);
+	void runAnalysis(Player player_one, Player player_two, int num_runs);
 };
