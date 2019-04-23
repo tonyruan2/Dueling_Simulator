@@ -97,10 +97,17 @@ private:
 	//Compute the accuracy of an attacking player against a defending player.
 	double computeAccuracy(Player attacker, Player defender);
 
-	void inflictDamage(Player attacker, Player defender);
+	//Compute the damage per second using accuracy and max hit.
+	double computeDamagePerSecond(double accuracy, int max_hit, double attack_speed);
 
-	//Return the style which provides the maximum damage per second for a player.
-	std::string computeMaxDamagePerSecStyle(Player player);
+	//Return the style which provides the maximum damage per second for the attacker.
+	std::string findStyleWithMaxDamagePerSec(Player attacker, Player defender);
+
+	//Return the style which provides the most defence.
+	std::string findStyleWithMaxDefence(Player defender);
+
+	//Simulates combat between an attacking player and a defending player.
+	void inflictDamage(Player attacker, Player defender);
 
 	//Run a duel between the players.
 	//Return the id of the winner.

@@ -27,11 +27,11 @@ private:
 
 	//The list of weapons in the duel.
 	std::vector<std::string> weapons
-		= { "Unarmed", "Abyssal Tentacle", "Dragon Scimitar" };
+		= { "Unarmed", "Elder Maul", "Abyssal Tentacle", "Dragon Scimitar" };
 
 	//The ids of the weapons (at the same indexes as above). Used with an item API.
 	std::vector<std::string> weapon_ids
-		= { "-1", "12006", "4587" };
+		= { "-1", "21003", "12006", "4587" };
 
 	//Attack requirements to use each weapon. Retrieved from API using above ids.
 	//0 is for unarmed.

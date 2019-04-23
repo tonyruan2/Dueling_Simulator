@@ -87,6 +87,15 @@ I also tied together my gui class and duel class. My duel class now supports the
 calculate the max hit of a player and functions to calculate the accuracy of one player against the other. The formulas for these calculations came from 
 the resources listed in the development.md file. There is more than one source because I wanted to cross-check calculations to ensure accuracy.
 
+To end the day, I implemented a basic long-run analysis of each player's win-rate over the course of a set amount of games.
+
+# Monday, April 22nd, 2019
+I added alternating attack style support to the duel simulator. If a user selects for one of the players to alternate their attack style, then
+during the duel, that player's attack style will change to give them the best performance. Different attack styles give different bonuses 
+(i.e. an accurate style gives more accuracy, an aggressive style gives more strength, and a defensive style gives more defence). So, during the duel, 
+if a player is alternating attack styles, the player will switch to the max damage per second style when they are attacking and the most defensive 
+style when they are being attacked. Alternating attack styles causes players to gain marginal to tremendous advantages in duels.
+
 ## Priorities for 4/24 code review
 - link up item api for weapons
 - start work on duel.cpp and the simulator
@@ -105,5 +114,5 @@ the resources listed in the development.md file. There is more than one source b
 - [ ] Combat simulation loop (take into account unarmed/armed, attack style changes, timing between attacks)
 - [ ] Images/Videos for animating the combat (possibly use another library)
 - [ ] Run numerous simulations after the first
-- [ ] Analye the simulations
+- [ ] Analyze the simulations
 - [ ] Display the result of the simulations
