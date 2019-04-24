@@ -47,54 +47,73 @@ The bug occurs when the "Abyssal Tentacle" option for a player is selected. When
 never falls below 75. During the generation of random players, I make sure to select the unarmed option for each player before generating 
 new stats. This should, in theory, cause no limitation to be placed. However, it appears that the player's weapon does not get reset 
 properly when I call the select() method. Visually, it does--the dropdown option changes to "Unarmed"--but printing the selected dropdown 
-after selecting unarmed displays the abyssal tentacle instead. I'm not sure why the code to select an option in the dropdown doesn't change what's 
-returned by asubsequent getSelected() method on that option. However, if I manually reselect "Unarmed" (though "Unarmed" is already selected), then 
-the player's data is randomly generated.
+after selecting unarmed displays the abyssal tentacle instead. I'm not sure why the code to select an option in the dropdown doesn't 
+change what's returned by asubsequent getSelected() method on that option. However, if I manually reselect "Unarmed" (though "Unarmed" is 
+already selected), then the player's data is randomly generated.
 
 UPDATE: After testing in a separate application, it appears getSelected() only takes into account what was manually selected in the 
 dropdown menu by the user. This makes sense with the program appearing to fix itself when I manually select a weapon. 
-getSelected() doesn't update when the program (through the code I have written) selects something. I'll have to keep track of what the user and program selects, 
-probably in a private variable. I'll also have to modify my code accordingly.
+getSelected() doesn't update when the program (through the code I have written) selects something. I'll have to keep track of what the
+user and program selects, probably in a private variable. I'll also have to modify my code accordingly.
 
 # Tuesday, April 16th, 2019
 After trying for a few hours to find a work-around to the unexpected getSelected() functionality, I couldn't find a way to store what 
-the user selects. There isn't a way for me to update what the player has selected in the weapon dropdown without a call to getSelected(). And, as 
-I found out yesterday, getSelected() does not update when I force a selection of a new option through using the gui select() method. This means that I 
-can only visually reset what the user sees in the dropdown menu, but the program thinks that the previous option is still selected.
+the user selects. There isn't a way for me to update what the player has selected in the weapon dropdown without a call to getSelected(). 
+And, as I found out yesterday, getSelected() does not update when I force a selection of a new option through using the gui select() method. 
+This means that I can only visually reset what the user sees in the dropdown menu, but the program thinks that the previous option is still 
+selected.
 
-I've decided to leave the so-called 'bug' as a feature. If the user is trying to generate random stats with an abyssal tentacle as their weapon, then 
-it makes sense NOT to reset the attack option to "Unarmed" and instead force the 'randomly' generated player to have attack level of at least 75. Thinking 
-about this more, I like this implementation. If a user wanted to simulate an unarmed fight, then generate random should do just that. If a user wants a fight 
-to be between players that use abyssal tentacles that require an attack level, then the randomly generated players should have an attack of at least 75 to 
-follow game rules.
+I've decided to leave the so-called 'bug' as a feature. If the user is trying to generate random stats with an abyssal tentacle as their 
+weapon, then it makes sense NOT to reset the attack option to "Unarmed" and instead force the 'randomly' generated player to have attack 
+level of at least 75. Thinking about this more, I like this implementation. If a user wanted to simulate an unarmed fight, then generate 
+random should do just that. If a user wants a fight to be between players that use abyssal tentacles that require an attack level, then 
+the randomly generated players should have an attack of at least 75 to follow game rules.
 
 # Wednesday, April 17th, 2019
-I updated how the GUI looks by adding some color to buttons and making them highlight when hovered. Another change I made was that the input for a player's name 
-resets to 12 characters (the max length of a username). Users can still input as many characters in the box because input isn't read until after the box is exited, 
-but any inputs longer than 12 characters will be reduced to the first 12 characters.
+I updated how the GUI looks by adding some color to buttons and making them highlight when hovered. Another change I made was that the 
+input for a player's name resets to 12 characters (the max length of a username). Users can still input as many characters in the box 
+because input isn't read until after the box is exited, but any inputs longer than 12 characters will be reduced to the first 12 characters.
 
 # Saturday, April 20th, 2019
-I modified the duel.h and duel.cpp files. Now, the duel has a public struct for a Player, but the duel class itself has private variables to manage player data during
-the duel. Previously, the player's data (in addition to what was initially set in the GUI) was all publicly exposed. This has been corrected. The Player struct now
-only contains GUI information that the user can choose when they create the players.
+I modified the duel.h and duel.cpp files. Now, the duel has a public struct for a Player, but the duel class itself has private variables
+to manage player data during the duel. Previously, the player's data (in addition to what was initially set in the GUI) was all publicly 
+exposed. This has been corrected. The Player struct now only contains GUI information that the user can choose when they create the players.
 
 # Sunday, April 21st, 2019
-I implemented JSON support for weapons in my GUI. Now, weapon data (attack styles, requirements, etc) is fetched from a weapon api. Moreover, I also use data from
-the API to enforce level requirements in the GUI. If a user selects a weapon that a player does not have the attack level for, the player's attack level will change
-in the GUI. This enforcement was hard-coded before, but now it uses data taken directly from the API. This means I can add as many weapons as I want in the future.
+I implemented JSON support for weapons in my GUI. Now, weapon data (attack styles, requirements, etc) is fetched from a weapon api. Moreover, 
+I also use data from the API to enforce level requirements in the GUI. If a user selects a weapon that a player does not have the attack level 
+for, the player's attack level will change in the GUI. This enforcement was hard-coded before, but now it uses data taken directly from the API. 
+This means I can add as many weapons as I want in the future.
 
-I also tied together my gui class and duel class. My duel class now supports the creation of two players using data from the gui class. I also added functions to
-calculate the max hit of a player and functions to calculate the accuracy of one player against the other. The formulas for these calculations came from 
-the resources listed in the development.md file. There is more than one source because I wanted to cross-check calculations to ensure accuracy.
+I also tied together my gui class and duel class. My duel class now supports the creation of two players using data from the gui class. I also 
+added functions to calculate the max hit of a player and functions to calculate the accuracy of one player against the other. The formulas for 
+these calculations came from the resources listed in the development.md file. There is more than one source because I wanted to cross-check 
+calculations to ensure accuracy.
 
 To end the day, I implemented a basic long-run analysis of each player's win-rate over the course of a set amount of games.
 
 # Monday, April 22nd, 2019
-I added alternating attack style support to the duel simulator. If a user selects for one of the players to alternate their attack style, then
-during the duel, that player's attack style will change to give them the best performance. Different attack styles give different bonuses 
-(i.e. an accurate style gives more accuracy, an aggressive style gives more strength, and a defensive style gives more defence). So, during the duel, 
-if a player is alternating attack styles, the player will switch to the max damage per second style when they are attacking and the most defensive 
-style when they are being attacked. Alternating attack styles causes players to gain marginal to tremendous advantages in duels.
+I added alternating attack style support to the duel simulator. If a user selects for one of the players to alternate their attack style, 
+then during the duel, that player's attack style will change to give them the best performance. Different attack styles give different 
+bonuses (i.e. an accurate style gives more accuracy, an aggressive style gives more strength, and a defensive style gives more defence). 
+So, during the duel, if a player is alternating attack styles, the player will switch to the max damage per second style when they are 
+attacking and the most defensive style when they are being attacked. Alternating attack styles causes players to gain marginal to 
+tremendous advantages in duels.
+
+# Tuesday, April 23rd, 2019
+I looked online for images/gifs/videos I could use for my simulator. However, I couldn't find anything suitable, so I went into Old School 
+Runescape and recorded videos to use. From these videos, I took screenshots and cropped and rotated images to get a set to use for the 
+simulation. For each player, I have a player 'attack' image, a player 'defending' image, and an image for each of the player's starting 
+position. 
+
+I explored using recorded videos with players having different weapons, but I quickly realized that this approach was infeasible. If I 
+wanted to add more weapons in the future, I'd have to record more videos. Moreover, using videos had many limitations, including 
+asymmetric recordings (recordings for one player vs the other) and the sheer difficulty of recording precise videos for duels of
+different weapon speeds.
+
+My current plan is to cycle through the collected images to simulate the duel. I'll have to think about how to switch the images to match 
+the attack interval of each player. While in-game, I also took a screenshot of the game's Duel Arena. Players go to this area to duel. I plan 
+to use this image as the background picture for my project.
 
 ## Priorities for 4/24 code review
 - link up item api for weapons

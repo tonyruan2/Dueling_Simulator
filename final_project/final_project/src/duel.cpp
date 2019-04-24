@@ -346,6 +346,10 @@ int Duel::runDuel(Player player_one, Player player_two) {
 	//determines who gets the first hit and who has priority when
 	//players attack at the same time
 	bool player_one_has_priority = rand() % 2;
+
+	//players attack when their attack speed divides their time
+	//i.e. if a player has an attack speed of 4, when (4 * gameTick) seconds 
+	//have passed, then the player will attack
 	double player_one_time = 0;
 	double player_two_time = 0;
 
