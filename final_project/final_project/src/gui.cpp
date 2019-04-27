@@ -390,7 +390,6 @@ void Gui::onSetRunsEvent(ofxDatGuiSliderEvent e) {
 
 void Gui::onRunEvent(ofxDatGuiButtonEvent e) {
 	if (e.target->is("Run simulation")) {
-		
 		Duel::Player player_one;
 		player_one.setStats(1, player_one_gui->getSlider("Attack:")->getValue(),
 			player_one_gui->getSlider("Strength:")->getValue(),

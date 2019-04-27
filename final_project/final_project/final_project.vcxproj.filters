@@ -28,6 +28,9 @@
     <ClCompile Include="src\duel.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\simulation.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
@@ -162,6 +165,9 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="src\duel.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\simulation.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>

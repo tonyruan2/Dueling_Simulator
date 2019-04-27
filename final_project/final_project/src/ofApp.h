@@ -25,4 +25,5 @@ public:
 	void gotMessage(ofMessage msg);
 
 	Gui gui;
+	ofImage background;
 };

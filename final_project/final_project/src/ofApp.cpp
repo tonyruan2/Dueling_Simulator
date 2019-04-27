@@ -4,6 +4,8 @@
 void ofApp::setup() {
 	ofSetWindowTitle("Old School Runescape Duel Simulator");
 	gui.setup();
+	background.load("background_solid.png");
+	gui.duel.simulation.setup();
 }
 
 //--------------------------------------------------------------
@@ -13,7 +15,8 @@ void ofApp::update() {
 
 //--------------------------------------------------------------
 void ofApp::draw() {
-
+	background.draw(0, 0, ofGetWidth(), ofGetHeight());
+	gui.duel.simulation.draw();
 }
 
 //--------------------------------------------------------------

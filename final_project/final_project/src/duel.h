@@ -3,6 +3,7 @@
 #include <vector>
 #include <map>
 #include "ofxJSON.h"
+#include "simulation.h"
 
 //class that represents a duel between two players
 class Duel {
@@ -31,8 +32,11 @@ public:
 			bool alternating_styles);
 	};
 
+	//Used for graphical simulation of duel.
+	Simulation simulation;
+
 	//Run a simulation of two players dueling. Include an analysis accordingly.
-	void runSimulation(Player &player_one, Player &player_two, 
+	void runSimulation(Player player_one, Player player_two, 
 		bool should_analyze, int num_runs);
 
 private:
@@ -56,7 +60,11 @@ private:
 		"crush"
 	};
 
-	double game_tick = 0.6;
+	//ID of the winner of the duel simulation.
+	int winner = -1;
+
+	//Each game tick is 600 milliseconds.
+	double game_tick = 600;
 
 	int player_one_current_hitpoints;
 	std::string player_one_current_style;
@@ -69,6 +77,17 @@ private:
 	std::map<std::string, int> player_two_weapon_bonuses;
 	int player_two_weapon_strength;
 	double player_two_attack_speed;
+
+	//Int representing a simulation action of not attacking during a game tick.
+	int no_attack = -1;
+
+	//Represents player one's attacks to player two during the simulation.
+	//The difference between each index is a game tick.
+	std::vector<int> player_one_simulation_actions;
+
+	//Represents player two's attacks to player one during the simulation.
+	//The difference between each index is a game tick.
+	std::vector<int> player_two_simulation_actions;
 
 	//Set the current hitpoints and current attack style of each player.
 	void setCurrentData(Player player_one, Player player_two);
@@ -106,12 +125,21 @@ private:
 	//Return the style which provides the most defence.
 	std::string findStyleWithMaxDefence(Player defender);
 
-	//Simulates combat between an attacking player and a defending player.
-	void inflictDamage(Player attacker, Player defender);
+	//Simulates combat between an attacking and a defending player.
+	//Changes graphical elements.
+	int inflictDamageForSimulation(Player attacker, Player defender);
 
-	//Run a duel between the players.
-	//Return the id of the winner.
-	int runDuel(Player player_one, Player player_two);
+	//Run a simulation of a duel between two players. 
+	//Changes graphical elements.
+	void runDuelSimulation(Player player_one, Player player_two);
+
+	//Simulates combat between an attacking player and a defending player.
+	//For long-run analysis (i.e. no graphics/printing).
+	void inflictDamageForLongRun(Player attacker, Player defender);
+
+	//Run a duel for between two players.
+	//For long-run analysis (i.e. no graphics/printing).
+	int runDuelForLongRun(Player player_one, Player player_two);
 
 	//Run a long-run analysis of two players dueling.
 	void runAnalysis(Player player_one, Player player_two, int num_runs);

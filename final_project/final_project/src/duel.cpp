@@ -38,14 +38,14 @@ void Duel::addUnarmedData(int player_id) {
 		player_one_weapon_bonuses.insert(std::pair<std::string, int>("slash", 0));
 		player_one_weapon_bonuses.insert(std::pair<std::string, int>("crush", 0));
 		player_one_weapon_strength = 0;
-		player_one_attack_speed = 2.4;
+		player_one_attack_speed = 4 * game_tick;
 	}
 	else if (player_id == 2) {
 		player_two_weapon_bonuses.insert(std::pair<std::string, int>("stab", 0));
 		player_two_weapon_bonuses.insert(std::pair<std::string, int>("slash", 0));
 		player_two_weapon_bonuses.insert(std::pair<std::string, int>("crush", 0));
 		player_two_weapon_strength = 0;
-		player_two_attack_speed = 2.4;
+		player_two_attack_speed = 4 * game_tick;
 	}
 }
 
@@ -222,7 +222,7 @@ double Duel::computeDamagePerSecond(double accuracy, int max_hit, double attack_
 	double max_hit_double = (double)max_hit;
 	return (accuracy *
 		((max_hit_double * (max_hit_double + 1) / 2) / (max_hit_double + 1)) //average value
-		/ attack_speed); //attack interval
+		/ (attack_speed / 1000)); //convert attack interval to seconds
 }
 
 std::string Duel::findStyleWithMaxDamagePerSec(Player attacker, Player defender) {
@@ -310,7 +310,7 @@ std::string Duel::findStyleWithMaxDefence(Player defender) {
 	return max_def_style;
 }
 
-void Duel::inflictDamage(Player attacker, Player defender) {
+int Duel::inflictDamageForSimulation(Player attacker, Player defender) {
 	if (attacker.player_id == 1) {
 		std::cout << "[Attacker] Player 1's weapon style: " << player_one_current_style << std::endl;
 		std::cout << "[Defender] Player 2's weapon style: " << player_two_current_style << std::endl;
@@ -321,35 +321,227 @@ void Duel::inflictDamage(Player attacker, Player defender) {
 	}
 
 	double attacker_accuracy = computeAccuracy(attacker, defender);
-	double roll = (double) (rand() % 10001) / 10000;
+	double roll = (double)(rand() % 10001) / 10000;
 	if (roll <= attacker_accuracy) {
 		int damage_dealt = rand() % computeMaxHit(attacker) + 1;
 		if (defender.player_id == 1) {
 			std::cout << "Player 2 dealt " << damage_dealt << " damage" << std::endl << std::endl;
 			player_one_current_hitpoints -= damage_dealt;
+			return damage_dealt;
 		}
 		else if (defender.player_id == 2) {
 			std::cout << "Player 1 dealt " << damage_dealt << " damage" << std::endl << std::endl;
 			player_two_current_hitpoints -= damage_dealt;
-		}
-		else {
-			return;
+			return damage_dealt;
 		}
 	}
 	else {
 		std::cout << "Player " << attacker.player_id << " dealt 0 damage" << std::endl << std::endl;
+		return 0;
 	}
 }
 
-//move run duel and run analysis to top afterwards
-int Duel::runDuel(Player player_one, Player player_two) {
+void Duel::runDuelSimulation(Player player_one, Player player_two) {
+	player_one_simulation_actions.clear();
+	player_two_simulation_actions.clear();
+
+	setCurrentData(player_one, player_two);
+	//reset the winner
+	winner = -1;
 	//determines who gets the first hit and who has priority when
 	//players attack at the same time
 	bool player_one_has_priority = rand() % 2;
 
 	//players attack when their attack speed divides their time
-	//i.e. if a player has an attack speed of 4, when (4 * gameTick) seconds 
+	//i.e. if a player has an attack speed of 4, when (4 * gameTick) milliseconds 
 	//have passed, then the player will attack
+	double player_one_time = 0;
+	double player_two_time = 0;
+
+	if (player_one_has_priority) {
+		player_one_time = 2.0 * game_tick;
+	}
+	else {
+		player_two_time = 2.0 * game_tick;
+	}
+
+	std::string player_one_max_dps_style
+		= findStyleWithMaxDamagePerSec(player_one, player_two);
+	std::string player_one_max_def_style
+		= findStyleWithMaxDefence(player_one);
+
+	std::string player_two_max_dps_style
+		= findStyleWithMaxDamagePerSec(player_two, player_one);
+	std::string player_two_max_def_style
+		= findStyleWithMaxDefence(player_two);
+
+	while (player_one_current_hitpoints > 0
+		&& player_two_current_hitpoints > 0) {
+		//players are attacking during the same game tick
+		if (fmod(player_one_time, player_one_attack_speed) <= 0.001
+			&& fmod(player_two_time, player_two_attack_speed) <= 0.001) {
+
+			int player_one_damage = 0;
+			int player_two_damage = 0;
+
+			if (player_one.alternating_styles) {
+				player_one_current_style
+					= player_one_max_dps_style;
+			}
+			if (player_two.alternating_styles) {
+				player_two_current_style
+					= player_two_max_dps_style;
+			}
+
+			if (player_one_has_priority) {
+				player_one_damage = inflictDamageForSimulation(
+					player_one, player_two);
+				if (player_two_current_hitpoints <= 0) {
+					winner = 1;
+				}
+				player_two_damage = inflictDamageForSimulation(player_two, player_one);
+			}
+			else {
+				player_two_damage = inflictDamageForSimulation(player_two, player_one);
+				if (player_one_current_hitpoints <= 0) {
+					winner = 2;
+				}
+				player_one_damage = inflictDamageForSimulation(
+					player_one, player_two);
+			}
+
+			player_one_simulation_actions.push_back(player_one_damage);
+			player_two_simulation_actions.push_back(player_two_damage);
+
+			if (winner != -1) { //check for a winner after the player with priority dealt damage
+				return;
+			}
+			//assign a winner taking into account the second player's hit
+			if (player_one_current_hitpoints <= 0) {
+				winner = 2;
+				return;
+			}
+			else if (player_two_current_hitpoints <= 0) {
+				winner = 1;
+				return;
+			}
+		}
+		else if (player_one_has_priority) {
+			if (fmod(player_one_time, player_one_attack_speed) <= 0.001) {
+				if (player_one.alternating_styles) {
+					player_one_current_style
+						= player_one_max_dps_style;
+					player_one_simulation_actions.push_back(
+						inflictDamageForSimulation(player_one, player_two));
+					player_one_current_style = player_one_max_def_style;
+				}
+				else {
+					player_one_simulation_actions.push_back(
+						inflictDamageForSimulation(player_one, player_two));
+				}
+			}
+			else {
+				player_one_simulation_actions.push_back(no_attack);
+			}
+
+			if (player_two_current_hitpoints <= 0) {
+				winner = 1;
+				player_two_simulation_actions.push_back(no_attack);
+				return;
+			}
+
+			if (fmod(player_two_time, player_two_attack_speed) <= 0.001) {
+				if (player_two.alternating_styles) {
+					player_two_current_style
+						= player_two_max_dps_style;
+					player_two_simulation_actions.push_back(
+						inflictDamageForSimulation(player_two, player_one));
+					player_two_current_style = player_two_max_def_style;
+				}
+				else {
+					player_two_simulation_actions.push_back(
+						inflictDamageForSimulation(player_two, player_one));
+				}
+			}
+			else {
+				player_two_simulation_actions.push_back(no_attack);
+			}
+		}
+		//player two is checked first
+		else {
+			if (fmod(player_two_time, player_two_attack_speed) <= 0.001) {
+				if (player_two.alternating_styles) {
+					player_two_current_style
+						= player_two_max_dps_style;
+					player_two_simulation_actions.push_back(
+						inflictDamageForSimulation(player_two, player_one));
+					player_two_current_style = player_two_max_def_style;
+				}
+				else {
+					player_two_simulation_actions.push_back(
+						inflictDamageForSimulation(player_two, player_one));
+				}
+			}
+			else {
+				player_two_simulation_actions.push_back(no_attack);
+			}
+
+			if (player_one_current_hitpoints <= 0) {
+				winner = 2;
+				player_one_simulation_actions.push_back(no_attack);
+				return;
+			}
+
+			if (fmod(player_one_time, player_one_attack_speed) <= 0.001) {
+				if (player_one.alternating_styles) {
+					player_one_current_style
+						= player_one_max_dps_style;
+					player_one_simulation_actions.push_back(
+						inflictDamageForSimulation(player_one, player_two));
+					player_one_current_style = player_one_max_def_style;
+				}
+				else {
+					player_one_simulation_actions.push_back(
+						inflictDamageForSimulation(player_one, player_two));
+				}
+			}
+			else {
+				player_one_simulation_actions.push_back(no_attack);
+			}
+		}
+
+		if (player_one_current_hitpoints <= 0) {
+			winner = 2;
+			return;
+		}
+
+		if (player_two_current_hitpoints <= 0) {
+			winner = 1;
+			return;
+		}
+
+		player_one_time += game_tick;
+		player_two_time += game_tick;
+	}
+}
+
+void Duel::inflictDamageForLongRun(Player attacker, Player defender) {
+	double attacker_accuracy = computeAccuracy(attacker, defender);
+	double roll = (double)(rand() % 10001) / 10000;
+	if (roll <= attacker_accuracy) {
+		int damage_dealt = rand() % computeMaxHit(attacker) + 1;
+		if (defender.player_id == 1) {
+			player_one_current_hitpoints -= damage_dealt;
+		}
+		else if (defender.player_id == 2) {
+			player_two_current_hitpoints -= damage_dealt;
+		}
+	}
+}
+
+int Duel::runDuelForLongRun(Player player_one, Player player_two) {
+	bool player_one_has_priority = rand() % 2;
+
 	double player_one_time = 0;
 	double player_two_time = 0;
 
@@ -370,26 +562,25 @@ int Duel::runDuel(Player player_one, Player player_two) {
 				if (player_one.alternating_styles) {
 					player_one_current_style 
 						= player_one_max_dps_style;
-					inflictDamage(player_one, player_two);
+					inflictDamageForLongRun(player_one, player_two);
 					player_one_current_style = player_one_max_def_style;
 				}
 				else {
-					inflictDamage(player_one, player_two);
+					inflictDamageForLongRun(player_one, player_two);
 				}
 			}
 			if (player_two_current_hitpoints <= 0) {
-				std::cout << "[The winner is: 1]" << std::endl << std::endl;
 				return 1;
 			}
 			if (fmod(player_two_time, player_two_attack_speed) <= 0.001) {
 				if (player_two.alternating_styles) {
 					player_two_current_style
 						= player_two_max_dps_style;
-					inflictDamage(player_two, player_one);
+					inflictDamageForLongRun(player_two, player_one);
 					player_two_current_style = player_two_max_def_style;
 				}
 				else {
-					inflictDamage(player_two, player_one);
+					inflictDamageForLongRun(player_two, player_one);
 				}
 			}
 		}
@@ -398,49 +589,55 @@ int Duel::runDuel(Player player_one, Player player_two) {
 				if (player_two.alternating_styles) {
 					player_two_current_style
 						= player_two_max_dps_style;
-					inflictDamage(player_two, player_one);
+					inflictDamageForLongRun(player_two, player_one);
 					player_two_current_style = player_two_max_def_style;
 				}
 				else {
-					inflictDamage(player_two, player_one);
+					inflictDamageForLongRun(player_two, player_one);
 				}
 			}
 			if (player_one_current_hitpoints <= 0) {
-				std::cout << "[The winner is: 2]" << std::endl << std::endl;
 				return 2;
 			}
 			if (fmod(player_one_time, player_one_attack_speed) <= 0.001) {
 				if (player_one.alternating_styles) {
 					player_one_current_style
 						= player_one_max_dps_style;
-					inflictDamage(player_one, player_two);
+					inflictDamageForLongRun(player_one, player_two);
 					player_one_current_style = player_one_max_def_style;
 				}
 				else {
-					inflictDamage(player_one, player_two);
+					inflictDamageForLongRun(player_one, player_two);
 				}
 			}
 		}
-		player_one_time += game_tick;
-		player_two_time += game_tick;
+		//Run the long-run faster by cycling through the delay interval
+		//if the attack speeds are the same.
+		if (player_one_attack_speed == player_two_attack_speed) {
+			player_one_time += player_one_attack_speed;
+			player_two_time += player_two_attack_speed;
+		}
+		else {
+			player_one_time += game_tick;
+			player_two_time += game_tick;
+		}
 	}
 
 	if (player_one_current_hitpoints <= 0) {
-		std::cout << "[The winner is: 2]" << std::endl << std::endl;
 		return 2;
 	}
 
 	if (player_two_current_hitpoints <= 0) {
-		std::cout << "[The winner is: 1]" << std::endl << std::endl;
 		return 1;
 	}
 	return -1;
 }
 
 void Duel::runAnalysis(Player player_one, Player player_two, int num_runs) {
+	setCurrentData(player_one, player_two);
 	double num_player_one_wins = 0;
 	for (int run_i = 0; run_i < num_runs; run_i++) {
-		int winner = runDuel(player_one, player_two);
+		int winner = runDuelForLongRun(player_one, player_two);
 		if (winner == 1) {
 			num_player_one_wins++;
 		}
@@ -450,18 +647,27 @@ void Duel::runAnalysis(Player player_one, Player player_two, int num_runs) {
 	double player_one_win_rate = num_player_one_wins / num_runs * 100;
 	double player_two_win_rate = 100 - player_one_win_rate;
 
-	std::cout << "Player one has a winrate of " << player_one_win_rate << "% over " << num_runs << " games." << std::endl;
-	std::cout << "Player two has a winrate of " << 100 - player_one_win_rate << "% over " << num_runs << " games." << std::endl;
+	std::cout << "Player one has a win rate of " << player_one_win_rate << "% over " << num_runs << " games." << std::endl;
+	std::cout << "Player two has a win rate of " << 100 - player_one_win_rate << "% over " << num_runs << " games." << std::endl;
 }
 
-void Duel::runSimulation(Player &player_one, Player &player_two,
+void Duel::runSimulation(Player player_one, Player player_two,
 	bool should_analyze, int num_runs) {
 
-	setCurrentData(player_one, player_two);
 	parseWeaponData(player_one);
 	parseWeaponData(player_two);
-	runDuel(player_one, player_two);
-
+	runDuelSimulation(player_one, player_two);
+	simulation.saveSimulation(player_one_simulation_actions, player_two_simulation_actions);
+	std::cout << "Player one action count: " << player_one_simulation_actions.size() << std::endl;
+	std::cout << "Player two action count: " << player_two_simulation_actions.size() << std::endl;
+	for (int i = 0; i < player_one_simulation_actions.size(); i++) {
+		std::cout << player_one_simulation_actions.at(i);
+	}
+	std::cout << std::endl;
+	for (int i = 0; i < player_two_simulation_actions.size(); i++) {
+		std::cout << player_two_simulation_actions.at(i);
+	}
+	std::cout << std::endl;
 	if (should_analyze) {
 		runAnalysis(player_one, player_two, num_runs);
 	}

@@ -197,6 +197,7 @@ C:\Users\trpro\Downloads\of_v0.10.1_vs2017_release\of_v0.10.1_vs2017_release\add
     <ClCompile Include="src\gui.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\ofApp.cpp" />
+    <ClCompile Include="src\simulation.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\..\..\addons\ofxDatGui-master\src\components\ofxDatGui2dPad.h" />
@@ -227,6 +228,7 @@ C:\Users\trpro\Downloads\of_v0.10.1_vs2017_release\of_v0.10.1_vs2017_release\add
     <ClInclude Include="src\duel.h" />
     <ClInclude Include="src\gui.h" />
     <ClInclude Include="src\ofApp.h" />
+    <ClInclude Include="src\simulation.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="$(OF_ROOT)\libs\openFrameworksCompiled\project\vs\openframeworksLib.vcxproj">

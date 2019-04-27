@@ -115,14 +115,28 @@ My current plan is to cycle through the collected images to simulate the duel. I
 the attack interval of each player. While in-game, I also took a screenshot of the game's Duel Arena. Players go to this area to duel. I plan 
 to use this image as the background picture for my project.
 
-## Priorities for 4/24 code review
-- link up item api for weapons
-- start work on duel.cpp and the simulator
-- have to look into timings, getting videos to play for simulation, and calculations for long-run analysis
-- test json parsing?
-- find a background picture
+# Friday, April 26th, 2019
+I tried to add animations to the duel simulator, but I ran into a problem: The entire oF program freezes (but runs the simulation in the background) 
+when I click a button to run the animation. In other words, the code works, but the animation isn't displayed because oF doesn't run update() or draw() 
+when a button is clicked. I'm trying to look for alternatives now.
 
-- if extra time, work on displaying the data (and clearing it if a new simulation is run)
+# Saturday, April 27th, 2019
+After about 5 hours, I managed to get a basic animation running. I did this by storing the 'simulation' in two vectors and then use draw() with numerous 
+condition checks in my simulation class. The two vectors store the players' actions as integers, with a value of -1 representing no action and a non-negative 
+value representing damage being dealt by that player. Each index in the vectors model the action of a game tick (600 milliseconds). I then used if/then statements 
+to draw the appropriate pictures and display the damage dealt. Because draw() updates every frame, I also had to save the previous frame's data if I wasn't drawing 
+anything new. If I didn't save the previous frame, there were stutters (no image displayed) in the animation. Finally, I used ofSleepMillis() to model the 
+timings in a real Old School RuneScape duel.
+
+
+## Things left to do in the final week 4/24 to 4/31
+- Figure out looping through the combat images for the simulation
+- Display the results of the simulation
+- Test JSON parsing in gui.cpp and 
+- Test JSON parsing parsing and calculations in duel.cpp
+- (Extra) Regeneration mechanic 
+(doesn't matter as much in the long run, but players regenerate 1 missing health every 100 game ticks, and they enter the duel 
+with a random game tick of 0 to 99.)
 
 ## List of major tasks
 - [ ] Project structure/classes

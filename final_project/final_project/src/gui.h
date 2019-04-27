@@ -8,15 +8,13 @@
 class Gui {
 
 public:
+	//Used to run a simulation with the option of a long-run analysis.
+	Duel duel;
 
 	//Sets up the user interface.
 	void setup();
 
 private:
-
-	//Used to run a simulation with the option of a long-run analysis.
-	Duel duel;
-
 	//The weapon styles that a player can use. Each adds a different set of bonuses to their stats.
 	std::vector<std::vector<std::string>> weapon_styles;
 
