@@ -66,6 +66,7 @@ private:
 	//Each game tick is 600 milliseconds.
 	double game_tick = 600;
 
+	//Player attributes.
 	int player_one_current_hitpoints;
 	std::string player_one_current_style;
 	std::map<std::string, int> player_one_weapon_bonuses;
@@ -143,4 +144,8 @@ private:
 
 	//Run a long-run analysis of two players dueling.
 	void runAnalysis(Player player_one, Player player_two, int num_runs);
+
+	//Aggregates the data in the simulation so that it can be displayed.
+	void aggregateSimulationData(Player player_one, Player player_two, 
+		double player_one_win_rate, double player_two_win_rate);
 };

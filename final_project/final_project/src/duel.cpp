@@ -646,7 +646,7 @@ void Duel::runAnalysis(Player player_one, Player player_two, int num_runs) {
 
 	double player_one_win_rate = num_player_one_wins / num_runs * 100;
 	double player_two_win_rate = 100 - player_one_win_rate;
-
+	aggregateSimulationData(player_one, player_two, player_one_win_rate, player_two_win_rate);
 	std::cout << "Player one has a win rate of " << player_one_win_rate << "% over " << num_runs << " games." << std::endl;
 	std::cout << "Player two has a win rate of " << 100 - player_one_win_rate << "% over " << num_runs << " games." << std::endl;
 }
@@ -657,9 +657,12 @@ void Duel::runSimulation(Player player_one, Player player_two,
 	parseWeaponData(player_one);
 	parseWeaponData(player_two);
 	runDuelSimulation(player_one, player_two);
-	simulation.saveSimulation(player_one_simulation_actions, player_two_simulation_actions);
+	simulation.saveSimulation(player_one.hitpoints_level, player_two.hitpoints_level, 
+		player_one_simulation_actions, player_two_simulation_actions);
+
 	std::cout << "Player one action count: " << player_one_simulation_actions.size() << std::endl;
 	std::cout << "Player two action count: " << player_two_simulation_actions.size() << std::endl;
+
 	for (int i = 0; i < player_one_simulation_actions.size(); i++) {
 		std::cout << player_one_simulation_actions.at(i);
 	}
@@ -671,4 +674,52 @@ void Duel::runSimulation(Player player_one, Player player_two,
 	if (should_analyze) {
 		runAnalysis(player_one, player_two, num_runs);
 	}
+}
+
+void Duel::aggregateSimulationData(Player player_one, Player player_two,
+	double player_one_win_rate, double player_two_win_rate) {
+	
+	double player_one_dps = 0;
+	double player_two_dps = 0;
+
+	if (player_one.alternating_styles) {
+		if (player_two.alternating_styles) {
+			player_two_current_style = findStyleWithMaxDefence(player_two);
+		}
+		player_one_current_style = findStyleWithMaxDamagePerSec(player_one, player_two);
+		player_one_dps = computeDamagePerSecond(computeAccuracy(player_one, player_two), 
+			computeMaxHit(player_one), player_one_attack_speed);
+	}
+	else {
+		player_one_dps = computeDamagePerSecond(computeAccuracy(player_one, player_two),
+			computeMaxHit(player_one), player_one_attack_speed);
+	}
+
+	if (player_two.alternating_styles) {
+		if (player_one.alternating_styles) {
+			player_one_current_style = findStyleWithMaxDefence(player_one);
+		}
+		player_two_current_style = findStyleWithMaxDamagePerSec(player_two, player_one);
+		player_two_dps = computeDamagePerSecond(computeAccuracy(player_two, player_one),
+			computeMaxHit(player_two), player_two_attack_speed);
+	}
+	else {
+		player_two_dps = computeDamagePerSecond(computeAccuracy(player_two, player_one),
+			computeMaxHit(player_two), player_two_attack_speed);
+	}
+	
+	bool player_one_win_status = false;
+	bool player_two_win_status = false;
+
+	if (winner == 1) {
+		player_one_win_status = true;
+	}
+	else {
+		player_two_win_status = true;
+	}
+
+	simulation.savePlayerOneData(computeMaxHit(player_one), 
+		player_one_dps, player_one_win_rate, player_one_win_status);
+	simulation.savePlayerTwoData(computeMaxHit(player_two), 
+		player_two_dps, player_two_win_rate, player_two_win_status);
 }

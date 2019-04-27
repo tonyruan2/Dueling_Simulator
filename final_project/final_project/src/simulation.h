@@ -5,8 +5,13 @@ class Simulation
 {
 public:
 	void setup();
-	void saveSimulation(std::vector<int> player_one_simulation_actions,
+	void saveSimulation(int player_one_hitpoints_level, int player_two_hitpoints_level, 
+		std::vector<int> player_one_simulation_actions,
 		std::vector<int> player_two_simulation_actions);
+	void savePlayerOneData(double max_hit, double damage_per_second, 
+		double win_rate, bool is_winner);
+	void savePlayerTwoData(double max_hit, double damage_per_second, 
+		double win_rate, bool is_winner);
 	void draw();
 
 private:
@@ -31,6 +36,25 @@ private:
 	std::string player_two_attack_identifier = "player_two_attack";
 	std::string both_players_attack_identifier = "both_players_attack";
 
+	//Used to display the health bar of player one in the simulation.
+	ofxDatGui* player_one_health_bar = new ofxDatGui(
+		ofGetWidth() / 3.4, ofGetHeight() / 1.5 + 10);
+
+	//Used to display the health bar of player two in the simulation.
+	ofxDatGui* player_two_health_bar = new ofxDatGui(
+		ofGetWidth() / 3.4 + (ofGetWidth() / 3), ofGetHeight() / 1.5 + 10);
+
+	/*
+	//Used to display the simulation data of player one.
+	ofxDatGui* player_one_data = new ofxDatGui(
+		ofGetWidth() / 3.4, ofGetHeight() / 1.5 + 50);
+
+	//Used to display the simulation data of player two.
+	ofxDatGui* player_two_data = new ofxDatGui(
+		ofGetWidth() / 3.4 + ofGetWidth() / 3, ofGetHeight() / 1.5 + 50);
+
+	*/
+
 	//Vectors are also saved in duel class in order to avoid multiple calls to
 	//saveSimulation() for every return statement in runDuelSimulation()
 	//Vectors are saved here to loop through the simulation.
@@ -51,6 +75,9 @@ private:
 	ofImage player_two_start_picture;
 	ofImage player_two_attack_picture;
 	ofImage player_two_defend_picture;
+	ofImage blue_hit_splat;
+	ofImage red_hit_splat;
+
 	ofxDatGui* results;
 
 	void setStartingPictures();
@@ -58,6 +85,7 @@ private:
 	void setPlayerTwoAttack(int damage);
 	void setBothPlayersAttack(int player_one_damage, 
 		int player_two_damage);
+	void setPlayerDamage(int attacker_id, int damage);
 	void drawPrevious();
 };
 

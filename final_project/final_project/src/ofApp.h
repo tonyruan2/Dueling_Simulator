@@ -26,4 +26,7 @@ public:
 
 	Gui gui;
 	ofImage background;
+
+private:
+	bool should_draw = true;
 };
