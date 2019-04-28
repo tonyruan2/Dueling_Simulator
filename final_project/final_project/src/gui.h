@@ -106,5 +106,4 @@ private:
 
 	//Called when the user clicks the "Run simulation" button.
 	void onRunEvent(ofxDatGuiButtonEvent e);
-
 };

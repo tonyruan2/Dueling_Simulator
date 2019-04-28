@@ -128,10 +128,15 @@ to draw the appropriate pictures and display the damage dealt. Because draw() up
 anything new. If I didn't save the previous frame, there were stutters (no image displayed) in the animation. Finally, I used ofSleepMillis() to model the 
 timings in a real Old School RuneScape duel.
 
-# Sunday, April 28th, 2019
 More work on the simulation class today. My program now displays hit splats when the players attack each other. It was also laggy to use 
 the duel simulator (i.e. for a new duel) while the simulation was running, so I made pressing F5 pause the simulation. When the simulation 
 is paused, the user can use the simulator with less lag. They can then press F5 again to show the new duel simulation.
+
+I've also implemented a hitpoints bar for each player that changes during the duel. The simulated duel replays continuously and this bar resets. 
+Finally, I added a display of the results of the duel. For each player, this includes their max hit, damage per second, long-term win rate 
+against the other player, and whether or not they won the duel that was visually simulated.
+
+Everything seems to be working well!
 
 ## Things left to do in the final week 4/24 to 4/31
 - Figure out looping through the combat images for the simulation

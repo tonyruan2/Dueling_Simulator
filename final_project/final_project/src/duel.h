@@ -5,11 +5,11 @@
 #include "ofxJSON.h"
 #include "simulation.h"
 
-//class that represents a duel between two players
+//Class that models duels between two players.
 class Duel {
 
 public:
-	//class that represents a Player
+	//Class that represents a player.
 	struct Player {
 		int player_id;
 		int attack_level;

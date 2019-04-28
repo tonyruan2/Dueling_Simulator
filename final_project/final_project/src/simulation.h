@@ -1,17 +1,28 @@
 #pragma once
 #include "ofxDatGui.h"
 
+//Class that represents a visual simulation of a duel between two players.
 class Simulation
 {
 public:
+	//Setup the simulation interface.
 	void setup();
-	void saveSimulation(int player_one_hitpoints_level, int player_two_hitpoints_level, 
+
+	//Save a simulation to be displayed.
+	void saveSimulation(int player_one_hitpoints_level, 
+		int player_two_hitpoints_level, 
 		std::vector<int> player_one_simulation_actions,
 		std::vector<int> player_two_simulation_actions);
+
+	//Save player one's data in the graphical interface.
 	void savePlayerOneData(double max_hit, double damage_per_second, 
 		double win_rate, bool is_winner);
+
+	//Save player two's data in the graphical interface.
 	void savePlayerTwoData(double max_hit, double damage_per_second, 
 		double win_rate, bool is_winner);
+
+	//Draw the simulation.
 	void draw();
 
 private:
@@ -36,15 +47,17 @@ private:
 	std::string player_two_attack_identifier = "player_two_attack";
 	std::string both_players_attack_identifier = "both_players_attack";
 
-	//Used to display the health bar of player one in the simulation.
-	ofxDatGui* player_one_health_bar = new ofxDatGui(
+	//The max hitpoints of any player.
+	int max_hitpoints = 99;
+
+	//Used to display the hitpoints bar of player one in the simulation.
+	ofxDatGui* player_one_hitpoints_bar = new ofxDatGui(
 		ofGetWidth() / 3.4, ofGetHeight() / 1.5 + 10);
 
-	//Used to display the health bar of player two in the simulation.
-	ofxDatGui* player_two_health_bar = new ofxDatGui(
+	//Used to display the hitpoints bar of player two in the simulation.
+	ofxDatGui* player_two_hitpoints_bar = new ofxDatGui(
 		ofGetWidth() / 3.4 + (ofGetWidth() / 3), ofGetHeight() / 1.5 + 10);
 
-	/*
 	//Used to display the simulation data of player one.
 	ofxDatGui* player_one_data = new ofxDatGui(
 		ofGetWidth() / 3.4, ofGetHeight() / 1.5 + 50);
@@ -52,8 +65,6 @@ private:
 	//Used to display the simulation data of player two.
 	ofxDatGui* player_two_data = new ofxDatGui(
 		ofGetWidth() / 3.4 + ofGetWidth() / 3, ofGetHeight() / 1.5 + 50);
-
-	*/
 
 	//Vectors are also saved in duel class in order to avoid multiple calls to
 	//saveSimulation() for every return statement in runDuelSimulation()
@@ -67,8 +78,10 @@ private:
 	//The difference between each index is a game tick.
 	std::vector<int> player_two_simulation_actions;
 
+	//Variable that determines whether to display the simulation.
 	bool duel_has_started = false;
 
+	//Pictures used in the graphical simulation.
 	ofImage player_one_start_picture;
 	ofImage player_one_attack_picture;
 	ofImage player_one_defend_picture;
@@ -78,14 +91,32 @@ private:
 	ofImage blue_hit_splat;
 	ofImage red_hit_splat;
 
-	ofxDatGui* results;
-
+	//Load in the pictures used.
+	void setupPictures();
+	
+	//Setup the display of hitpoints bars.
+	void setupHitpointsBars();
+	
+	//Setup the display of player data.
+	void setupPlayerDataDisplay();
+	
+	//Draw the starting pictures in the simulation.
 	void setStartingPictures();
+	
+	//Draw the pictures that represent player one attacking.
 	void setPlayerOneAttack(int damage);
+	
+	//Draw the pictures that represent player two attacking.
 	void setPlayerTwoAttack(int damage);
+	
+	//Draw the pictures that represent both players attacking.
 	void setBothPlayersAttack(int player_one_damage, 
 		int player_two_damage);
+
+	//Draw player hit splats.
 	void setPlayerDamage(int attacker_id, int damage);
+	
+	//Draw the previous pictures.
 	void drawPrevious();
 };
 
