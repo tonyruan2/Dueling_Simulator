@@ -691,6 +691,9 @@ void Duel::aggregateSimulationData(Player player_one, Player player_two,
 			computeMaxHit(player_one), player_one_attack_speed);
 	}
 	else {
+		if (player_two.alternating_styles) {
+			player_two_current_style = findStyleWithMaxDefence(player_two);
+		}
 		player_one_dps = computeDamagePerSecond(computeAccuracy(player_one, player_two),
 			computeMaxHit(player_one), player_one_attack_speed);
 	}
@@ -704,6 +707,9 @@ void Duel::aggregateSimulationData(Player player_one, Player player_two,
 			computeMaxHit(player_two), player_two_attack_speed);
 	}
 	else {
+		if (player_one.alternating_styles) {
+			player_one_current_style = findStyleWithMaxDefence(player_one);
+		}
 		player_two_dps = computeDamagePerSecond(computeAccuracy(player_two, player_one),
 			computeMaxHit(player_two), player_two_attack_speed);
 	}
