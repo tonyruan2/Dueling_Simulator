@@ -140,10 +140,11 @@ Everything seems to be working well!
 
 # Monday, April 29th, 2019
 I ran numerous duel simulations today to make sure things were working as expected. I thought about writing tests, but I realized most 
-of my data was stored/modified in the gui interface that I used. What this means is I would have to create the same gui (i.e. copy and 
-paste possibly hundreds of lines of code) to make tests. For this reason, I tested my simulator by interacting with it manually. I also 
-tested the duel and simulation by displaying the data and crosschecking. I didn't know how to test the core duel loop, which involved a 
+of my data was stored/modified in the gui interface that I used. For this reason, I tested my simulator by interacting with it manually. I also 
+tested the duel and simulation by crosschecking the displayed data. I don't know how to test the core duel loop, which involved a 
 variety of moving elements/variables while the duel was running.
+
+I'm happy with how my final project turned out. I accomplished a lot more than what I originally thought I could in ~3 weeks!
 
 ## List of major tasks completed from 4/7 to 5/1
 - [x] Classes for simulating a duel (gui (for UI), duel (for game logic), simulation (for visual display))
