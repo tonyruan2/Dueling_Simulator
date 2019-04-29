@@ -24,29 +24,37 @@ void Duel::Player::setCombatSpecs(std::string selected_weapon_style, std::string
 	this->alternating_styles = alternating_styles;
 }
 
+void Duel::runSimulation(Player player_one, Player player_two,
+	bool should_analyze, int num_runs) {
+
+	parseWeaponData(player_one);
+	parseWeaponData(player_two);
+	runDuelSimulation(player_one, player_two);
+	simulation.saveSimulation(player_one.hitpoints_level, player_two.hitpoints_level,
+		player_one_simulation_actions, player_two_simulation_actions);
+
+	std::cout << "Player one action count: " << player_one_simulation_actions.size() << std::endl;
+	std::cout << "Player two action count: " << player_two_simulation_actions.size() << std::endl;
+
+	for (int i = 0; i < player_one_simulation_actions.size(); i++) {
+		std::cout << player_one_simulation_actions.at(i);
+	}
+	std::cout << std::endl;
+	for (int i = 0; i < player_two_simulation_actions.size(); i++) {
+		std::cout << player_two_simulation_actions.at(i);
+	}
+	std::cout << std::endl;
+	if (should_analyze) {
+		runAnalysis(player_one, player_two, num_runs);
+	}
+}
+
 void Duel::setCurrentData(Player player_one, Player player_two) {
 	player_one_current_hitpoints = player_one.hitpoints_level;
 	player_one_current_style = player_one.selected_weapon_style;
 
 	player_two_current_hitpoints = player_two.hitpoints_level;
 	player_two_current_style = player_two.selected_weapon_style;
-}
-
-void Duel::addUnarmedData(int player_id) {
-	if (player_id == 1) {
-		player_one_weapon_bonuses.insert(std::pair<std::string, int>("stab", 0));
-		player_one_weapon_bonuses.insert(std::pair<std::string, int>("slash", 0));
-		player_one_weapon_bonuses.insert(std::pair<std::string, int>("crush", 0));
-		player_one_weapon_strength = 0;
-		player_one_attack_speed = 4 * game_tick;
-	}
-	else if (player_id == 2) {
-		player_two_weapon_bonuses.insert(std::pair<std::string, int>("stab", 0));
-		player_two_weapon_bonuses.insert(std::pair<std::string, int>("slash", 0));
-		player_two_weapon_bonuses.insert(std::pair<std::string, int>("crush", 0));
-		player_two_weapon_strength = 0;
-		player_two_attack_speed = 4 * game_tick;
-	}
 }
 
 void Duel::parseWeaponData(Player player) {
@@ -104,6 +112,23 @@ void Duel::parseWeaponData(Player player) {
 			player_two_attack_speed = game_tick * std::stoi(weapon_json_result
 				["weapon"]["attack_speed"].asString());
 		}
+	}
+}
+
+void Duel::addUnarmedData(int player_id) {
+	if (player_id == 1) {
+		player_one_weapon_bonuses.insert(std::pair<std::string, int>("stab", 0));
+		player_one_weapon_bonuses.insert(std::pair<std::string, int>("slash", 0));
+		player_one_weapon_bonuses.insert(std::pair<std::string, int>("crush", 0));
+		player_one_weapon_strength = 0;
+		player_one_attack_speed = 4 * game_tick;
+	}
+	else if (player_id == 2) {
+		player_two_weapon_bonuses.insert(std::pair<std::string, int>("stab", 0));
+		player_two_weapon_bonuses.insert(std::pair<std::string, int>("slash", 0));
+		player_two_weapon_bonuses.insert(std::pair<std::string, int>("crush", 0));
+		player_two_weapon_strength = 0;
+		player_two_attack_speed = 4 * game_tick;
 	}
 }
 
@@ -650,31 +675,6 @@ void Duel::runAnalysis(Player player_one, Player player_two, int num_runs) {
 	aggregateSimulationData(player_one, player_two, player_one_win_rate, player_two_win_rate);
 	std::cout << "Player one has a win rate of " << player_one_win_rate << "% over " << num_runs << " games." << std::endl;
 	std::cout << "Player two has a win rate of " << 100 - player_one_win_rate << "% over " << num_runs << " games." << std::endl;
-}
-
-void Duel::runSimulation(Player player_one, Player player_two,
-	bool should_analyze, int num_runs) {
-
-	parseWeaponData(player_one);
-	parseWeaponData(player_two);
-	runDuelSimulation(player_one, player_two);
-	simulation.saveSimulation(player_one.hitpoints_level, player_two.hitpoints_level, 
-		player_one_simulation_actions, player_two_simulation_actions);
-
-	std::cout << "Player one action count: " << player_one_simulation_actions.size() << std::endl;
-	std::cout << "Player two action count: " << player_two_simulation_actions.size() << std::endl;
-
-	for (int i = 0; i < player_one_simulation_actions.size(); i++) {
-		std::cout << player_one_simulation_actions.at(i);
-	}
-	std::cout << std::endl;
-	for (int i = 0; i < player_two_simulation_actions.size(); i++) {
-		std::cout << player_two_simulation_actions.at(i);
-	}
-	std::cout << std::endl;
-	if (should_analyze) {
-		runAnalysis(player_one, player_two, num_runs);
-	}
 }
 
 void Duel::aggregateSimulationData(Player player_one, Player player_two,

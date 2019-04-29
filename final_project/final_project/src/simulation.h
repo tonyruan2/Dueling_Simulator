@@ -29,7 +29,6 @@ public:
 	void setPlayerDataVisibility(bool visibility);
 
 private:
-	
 	//Each game tick is 600 milliseconds.
 	int game_tick_value = 600;
 
