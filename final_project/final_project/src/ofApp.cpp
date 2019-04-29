@@ -2,6 +2,7 @@
 
 //--------------------------------------------------------------
 void ofApp::setup() {
+	ofxDatGuiLog::quiet();
 	ofSetWindowTitle("Old School Runescape Duel Simulator");
 	gui.setup();
 	background.load("background_solid.png");

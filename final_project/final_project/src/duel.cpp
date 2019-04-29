@@ -132,6 +132,7 @@ std::string Duel::findStance(Player player) {
 int Duel::computeMaxHit(Player player) {
 	int weapon_strength = 0;
 	std::string stance = findStance(player);
+
 	if (player.player_id == 1) {
 		weapon_strength = player_one_weapon_strength;
 	}
@@ -679,7 +680,9 @@ void Duel::runSimulation(Player player_one, Player player_two,
 void Duel::aggregateSimulationData(Player player_one, Player player_two,
 	double player_one_win_rate, double player_two_win_rate) {
 	
+	double player_one_max_hit = 0;
 	double player_one_dps = 0;
+	double player_two_max_hit = 0;
 	double player_two_dps = 0;
 
 	if (player_one.alternating_styles) {
@@ -687,15 +690,18 @@ void Duel::aggregateSimulationData(Player player_one, Player player_two,
 			player_two_current_style = findStyleWithMaxDefence(player_two);
 		}
 		player_one_current_style = findStyleWithMaxDamagePerSec(player_one, player_two);
+		player_one_max_hit = computeMaxHit(player_one);
 		player_one_dps = computeDamagePerSecond(computeAccuracy(player_one, player_two), 
-			computeMaxHit(player_one), player_one_attack_speed);
+			player_one_max_hit, player_one_attack_speed);
 	}
 	else {
+		player_one_current_style = player_one.selected_weapon_style;
 		if (player_two.alternating_styles) {
 			player_two_current_style = findStyleWithMaxDefence(player_two);
 		}
+		player_one_max_hit = computeMaxHit(player_one);
 		player_one_dps = computeDamagePerSecond(computeAccuracy(player_one, player_two),
-			computeMaxHit(player_one), player_one_attack_speed);
+			player_one_max_hit, player_one_attack_speed);
 	}
 
 	if (player_two.alternating_styles) {
@@ -703,15 +709,18 @@ void Duel::aggregateSimulationData(Player player_one, Player player_two,
 			player_one_current_style = findStyleWithMaxDefence(player_one);
 		}
 		player_two_current_style = findStyleWithMaxDamagePerSec(player_two, player_one);
+		player_two_max_hit = computeMaxHit(player_two);
 		player_two_dps = computeDamagePerSecond(computeAccuracy(player_two, player_one),
-			computeMaxHit(player_two), player_two_attack_speed);
+			player_two_max_hit, player_two_attack_speed);
 	}
 	else {
+		player_two_current_style = player_two.selected_weapon_style;
 		if (player_one.alternating_styles) {
 			player_one_current_style = findStyleWithMaxDefence(player_one);
 		}
+		player_two_max_hit = computeMaxHit(player_two);
 		player_two_dps = computeDamagePerSecond(computeAccuracy(player_two, player_one),
-			computeMaxHit(player_two), player_two_attack_speed);
+			player_two_max_hit, player_two_attack_speed);
 	}
 	
 	bool player_one_win_status = false;
@@ -724,8 +733,8 @@ void Duel::aggregateSimulationData(Player player_one, Player player_two,
 		player_two_win_status = true;
 	}
 
-	simulation.savePlayerOneData(computeMaxHit(player_one), 
+	simulation.savePlayerOneData(player_one_max_hit, 
 		player_one_dps, player_one_win_rate, player_one_win_status);
-	simulation.savePlayerTwoData(computeMaxHit(player_two), 
+	simulation.savePlayerTwoData(player_two_max_hit, 
 		player_two_dps, player_two_win_rate, player_two_win_status);
 }

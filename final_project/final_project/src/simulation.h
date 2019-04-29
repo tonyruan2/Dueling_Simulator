@@ -25,6 +25,9 @@ public:
 	//Draw the simulation.
 	void draw();
 
+	//Change the player data visibility.
+	void setPlayerDataVisibility(bool visibility);
+
 private:
 	
 	//Each game tick is 600 milliseconds.

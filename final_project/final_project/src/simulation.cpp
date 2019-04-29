@@ -245,3 +245,8 @@ void Simulation::savePlayerTwoData(double max_hit, double damage_per_second,
 	}
 	player_two_data->setVisible(true);
 }
+
+void Simulation::setPlayerDataVisibility(bool visibility) {
+	player_one_data->setVisible(visibility);
+	player_two_data->setVisible(visibility);
+}

@@ -417,5 +417,8 @@ void Gui::onRunEvent(ofxDatGuiButtonEvent e) {
 		duel.runSimulation(player_one, player_two,
 			duel_runner_gui->getToggle("Run long-run analysis?")->getChecked(),
 			duel_runner_gui->getSlider("Total runs:")->getValue());
+
+		duel.simulation.setPlayerDataVisibility(
+			duel_runner_gui->getToggle("Run long-run analysis?")->getChecked());
 	}
 }

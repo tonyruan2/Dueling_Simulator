@@ -138,23 +138,22 @@ against the other player, and whether or not they won the duel that was visually
 
 Everything seems to be working well!
 
-## Things left to do in the final week 4/24 to 4/31
-- Figure out looping through the combat images for the simulation
-- Display the results of the simulation
-- Test JSON parsing in gui.cpp and 
-- Test JSON parsing parsing and calculations in duel.cpp
-- (Extra) Regeneration mechanic 
-(doesn't matter as much in the long run, but players regenerate 1 missing health every 100 game ticks, and they enter the duel 
-with a random game tick of 0 to 99.)
+# Monday, April 29th, 2019
+I ran numerous duel simulations today to make sure things were working as expected. I thought about writing tests, but I realized most 
+of my data was stored/modified in the gui interface that I used. What this means is I would have to create the same gui (i.e. copy and 
+paste possibly hundreds of lines of code) to make tests. For this reason, I tested my simulator by interacting with it manually. I also 
+tested the duel and simulation by displaying the data and crosschecking. I didn't know how to test the core duel loop, which involved a 
+variety of moving elements/variables while the duel was running.
 
-## List of major tasks
-- [ ] Project structure/classes
-- [ ] Test cases (json?)
-- [ ] GUI design and layout
-- [ ] Random stat generator button
-- [ ] Damage/Accuracy calculations
-- [ ] Combat simulation loop (take into account unarmed/armed, attack style changes, timing between attacks)
-- [ ] Images/Videos for animating the combat (possibly use another library)
-- [ ] Run numerous simulations after the first
-- [ ] Analyze the simulations
-- [ ] Display the result of the simulations
+## List of major tasks completed from 4/7 to 5/1
+- [x] Classes for simulating a duel (gui (for UI), duel (for game logic), simulation (for visual display))
+- [x] GUI design and layout to allow users to modify player data
+- [x] Random stat generator button to create players with random stats
+- [x] Level requirements enforced by the GUI (i.e. a player's attack level changes to match the required attack
+ level of a weapon if their attack level is lower)
+- [x] Damage dealt/Accuracy calculations for players in a duel
+- [x] Combat simulation loop (take into account weapons, attack style changes, and weapon speeds)
+- [x] Images for simulating the duel
+- [x] Support for numerous simulations after the first
+- [x] Analysis option for the subsequent simulations
+- [x] A display of the results of the simulations
