@@ -146,6 +146,9 @@ variety of moving elements/variables while the duel was running.
 
 I'm happy with how my final project turned out. I accomplished a lot more than what I originally thought I could in ~3 weeks!
 
+# Wednesday, May 1, 2019
+I added a short description and pictures of the project running to the read.me file.
+
 ## List of major tasks completed from 4/7 to 5/1
 - [x] Classes for simulating a duel (gui (for UI), duel (for game logic), simulation (for visual display))
 - [x] GUI design and layout to allow users to modify player data
