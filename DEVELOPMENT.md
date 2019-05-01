@@ -147,7 +147,7 @@ variety of moving elements/variables while the duel was running.
 I'm happy with how my final project turned out. I accomplished a lot more than what I originally thought I could in ~3 weeks!
 
 # Wednesday, May 1, 2019
-I added a short description and pictures of the project running to the read.me file.
+I added a short description and pictures of the project running to the readme file.
 
 ## List of major tasks completed from 4/7 to 5/1
 - [x] Classes for simulating a duel (gui (for UI), duel (for game logic), simulation (for visual display))
@@ -155,7 +155,7 @@ I added a short description and pictures of the project running to the read.me f
 - [x] Random stat generator button to create players with random stats
 - [x] Level requirements enforced by the GUI (i.e. a player's attack level changes to match the required attack
  level of a weapon if their attack level is lower)
-- [x] Damage dealt/Accuracy calculations for players in a duel
+- [x] Damage dealt/accuracy calculations for players in a duel
 - [x] Combat simulation loop (take into account weapons, attack style changes, and weapon speeds)
 - [x] Images for simulating the duel
 - [x] Support for numerous simulations after the first

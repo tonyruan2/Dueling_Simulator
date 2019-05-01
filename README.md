@@ -13,24 +13,16 @@ The simulated duel will continue to loop and reset. Since this can cause other p
 the duel by pressing F5 before clicking buttons to setup and run a new simulation. Pressing F5 again will show this new simulation.
 
 # Other uses
-This project allows users to investigate the balance of the game's combat system. Users can obtain concrete data about the strength of a player and 
-determine which account builds are stronger than others. In this way, users can experiment with different account builds without having to train 
-hundreds or thousands of hours.
+Using the application, users can easily investigate the balance of the game's combat system. Users can obtain concrete data about the strength of 
+a player and determine which account builds are stronger than others. In this way, users can experiment with different account builds without having 
+to train hundreds or thousands of hours.
 
 # Built with
 - openFrameworks: https://openframeworks.cc/
+- ofxDatGui, a GUI addon for oF: https://github.com/braitsch/ofxDatGui
+- ofxJSON, a JSON support addon for oF: https://github.com/jeffcrouse/ofxJSON
 - Player data API: http://www.sudo.tf/api/hiscores/grab.php?rsn=
 - Item API for weapons: https://www.osrsbox.com/projects/osrsbox-db/#accessing-the-json-api
-
-# Author
-- Tony Ruan
-
-# Acknowledgements
-Combat calculation formulas were collected and crosschecked from the sources listed below.
-- Comprehensive combat formulas: http://services.runescape.com/m=forum/forums.ws?317,318,712,65587452,goto,1
-- Video with accuracy formula: https://www.youtube.com/watch?v=Ucvn8hQEs2A
-- OSRS wiki page with max hit formula: https://oldschool.runescape.wiki/w/Maximum_melee_hit
-- Overview of combat formulas: https://www.osrsbox.com/blog/2019/01/22/calculating-melee-dps-in-osrs/#1-calculating-max-hit
 
 # Pictures
 - Start menu of the application
@@ -43,3 +35,13 @@ Combat calculation formulas were collected and crosschecked from the sources lis
 ![Running a simulation](https://i.imgur.com/uxqNSjT.png)
 - Running a simulation with an analysis
 ![Running a simulation with an analysis](https://i.imgur.com/UJhLirO.png)
+
+# Author
+- Tony Ruan
+
+# Acknowledgements
+Combat calculation formulas were collected and crosschecked from the sources listed below.
+- Comprehensive combat formulas: http://services.runescape.com/m=forum/forums.ws?317,318,712,65587452,goto,1
+- Video with accuracy formula: https://www.youtube.com/watch?v=Ucvn8hQEs2A
+- OSRS wiki page with max hit formula: https://oldschool.runescape.wiki/w/Maximum_melee_hit
+- Overview of combat formulas: https://www.osrsbox.com/blog/2019/01/22/calculating-melee-dps-in-osrs/#1-calculating-max-hit
