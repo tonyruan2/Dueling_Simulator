@@ -235,6 +235,7 @@ double Duel::computeAccuracy(Player attacker, Player defender) {
 	double max_defence_roll = computeMaxDefenceRoll(defender);
 
 	double accuracy = 0;
+	//From https://www.osrsbox.com/blog/2019/01/22/calculating-melee-dps-in-osrs/#1-calculating-max-hit
 	if (max_attack_roll > max_defence_roll) {
 		accuracy = 1 - (max_defence_roll + 2) / (2 * (max_attack_roll + 1));
 	}
@@ -246,9 +247,9 @@ double Duel::computeAccuracy(Player attacker, Player defender) {
 
 double Duel::computeDamagePerSecond(double accuracy, int max_hit, double attack_speed) {
 	double max_hit_double = (double)max_hit;
-	return (accuracy *
-		((max_hit_double * (max_hit_double + 1) / 2) / (max_hit_double + 1)) //average value
-		/ (attack_speed / 1000)); //convert attack interval to seconds
+	//From https://www.osrsbox.com/blog/2019/01/22/calculating-melee-dps-in-osrs/#1-calculating-max-hit
+	//convert attack interval to seconds
+	return (accuracy * (max_hit_double / 2) / (attack_speed / 1000.0));
 }
 
 std::string Duel::findStyleWithMaxDamagePerSec(Player attacker, Player defender) {
@@ -689,6 +690,9 @@ void Duel::aggregateSimulationData(Player player_one, Player player_two,
 		if (player_two.alternating_styles) {
 			player_two_current_style_ = findStyleWithMaxDefence(player_two);
 		}
+		else {
+			player_two_current_style_ = player_two.selected_weapon_style;
+		}
 		player_one_current_style_ = findStyleWithMaxDamagePerSec(player_one, player_two);
 		player_one_max_hit = computeMaxHit(player_one);
 		player_one_dps = computeDamagePerSecond(computeAccuracy(player_one, player_two), 
@@ -699,6 +703,9 @@ void Duel::aggregateSimulationData(Player player_one, Player player_two,
 		if (player_two.alternating_styles) {
 			player_two_current_style_ = findStyleWithMaxDefence(player_two);
 		}
+		else {
+			player_two_current_style_ = player_two.selected_weapon_style;
+		}
 		player_one_max_hit = computeMaxHit(player_one);
 		player_one_dps = computeDamagePerSecond(computeAccuracy(player_one, player_two),
 			player_one_max_hit, player_one_attack_speed_);
@@ -707,6 +714,9 @@ void Duel::aggregateSimulationData(Player player_one, Player player_two,
 	if (player_two.alternating_styles) {
 		if (player_one.alternating_styles) {
 			player_one_current_style_ = findStyleWithMaxDefence(player_one);
+		}
+		else {
+			player_one_current_style_ = player_one.selected_weapon_style;
 		}
 		player_two_current_style_ = findStyleWithMaxDamagePerSec(player_two, player_one);
 		player_two_max_hit = computeMaxHit(player_two);
@@ -717,6 +727,9 @@ void Duel::aggregateSimulationData(Player player_one, Player player_two,
 		player_two_current_style_ = player_two.selected_weapon_style;
 		if (player_one.alternating_styles) {
 			player_one_current_style_ = findStyleWithMaxDefence(player_one);
+		}
+		else {
+			player_one_current_style_ = player_one.selected_weapon_style;
 		}
 		player_two_max_hit = computeMaxHit(player_two);
 		player_two_dps = computeDamagePerSecond(computeAccuracy(player_two, player_one),
