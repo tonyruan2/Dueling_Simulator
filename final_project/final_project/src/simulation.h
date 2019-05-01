@@ -30,42 +30,42 @@ public:
 
 private:
 	//Each game tick is 600 milliseconds.
-	int game_tick_value = 600;
+	int game_tick_value_ = 600;
 
 	//Current game_tick in the simulation.
-	int current_game_tick = 0;
+	int current_game_tick_ = 0;
 
 	//Previous game tick image idenfitier. Used in draw() to hold a stable simulation
 	//in between animations.
-	std::string previous_image_identifier;
+	std::string previous_image_identifier_;
 
 	//Previous damages inflicted by each player. Used in draw() to hold a stable
 	//simulation in between animations.
-	int previous_player_one_damage = 0;
-	int previous_player_two_damage = 0;
+	int previous_player_one_damage_ = 0;
+	int previous_player_two_damage_ = 0;
 
 	//Simulation image identifiers.
-	std::string player_one_attack_identifier = "player_one_attack";
-	std::string player_two_attack_identifier = "player_two_attack";
-	std::string both_players_attack_identifier = "both_players_attack";
+	std::string player_one_attack_identifier_ = "player_one_attack";
+	std::string player_two_attack_identifier_ = "player_two_attack";
+	std::string both_players_attack_identifier_ = "both_players_attack";
 
 	//The max hitpoints of any player.
-	int max_hitpoints = 99;
+	int max_hitpoints_ = 99;
 
 	//Used to display the hitpoints bar of player one in the simulation.
-	ofxDatGui* player_one_hitpoints_bar = new ofxDatGui(
+	ofxDatGui* player_one_hitpoints_bar_ = new ofxDatGui(
 		ofGetWidth() / 3.4, ofGetHeight() / 1.5 + 10);
 
 	//Used to display the hitpoints bar of player two in the simulation.
-	ofxDatGui* player_two_hitpoints_bar = new ofxDatGui(
+	ofxDatGui* player_two_hitpoints_bar_ = new ofxDatGui(
 		ofGetWidth() / 3.4 + (ofGetWidth() / 3), ofGetHeight() / 1.5 + 10);
 
 	//Used to display the simulation data of player one.
-	ofxDatGui* player_one_data = new ofxDatGui(
+	ofxDatGui* player_one_data_ = new ofxDatGui(
 		ofGetWidth() / 3.4, ofGetHeight() / 1.5 + 50);
 
 	//Used to display the simulation data of player two.
-	ofxDatGui* player_two_data = new ofxDatGui(
+	ofxDatGui* player_two_data_ = new ofxDatGui(
 		ofGetWidth() / 3.4 + ofGetWidth() / 3, ofGetHeight() / 1.5 + 50);
 
 	//Vectors are also saved in duel class in order to avoid multiple calls to
@@ -74,24 +74,24 @@ private:
 
 	//Represents player one's attacks to player two during the simulation.
 	//The difference between each index is a game tick.
-	std::vector<int> player_one_simulation_actions;
+	std::vector<int> player_one_simulation_actions_;
 
 	//Represents player two's attacks to player one during the simulation.
 	//The difference between each index is a game tick.
-	std::vector<int> player_two_simulation_actions;
+	std::vector<int> player_two_simulation_actions_;
 
 	//Variable that determines whether to display the simulation.
-	bool duel_has_started = false;
+	bool duel_has_started_ = false;
 
 	//Pictures used in the graphical simulation.
-	ofImage player_one_start_picture;
-	ofImage player_one_attack_picture;
-	ofImage player_one_defend_picture;
-	ofImage player_two_start_picture;
-	ofImage player_two_attack_picture;
-	ofImage player_two_defend_picture;
-	ofImage blue_hit_splat;
-	ofImage red_hit_splat;
+	ofImage player_one_start_picture_;
+	ofImage player_one_attack_picture_;
+	ofImage player_one_defend_picture_;
+	ofImage player_two_start_picture_;
+	ofImage player_two_attack_picture_;
+	ofImage player_two_defend_picture_;
+	ofImage blue_hit_splat_;
+	ofImage red_hit_splat_;
 
 	//Load in the pictures used.
 	void setupPictures();

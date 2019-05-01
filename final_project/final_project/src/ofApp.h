@@ -24,9 +24,9 @@ public:
 	void dragEvent(ofDragInfo dragInfo);
 	void gotMessage(ofMessage msg);
 
-	Gui gui;
-	ofImage background;
+	Gui gui_;
+	ofImage background_;
 
 private:
-	bool should_draw = true;
+	bool should_draw_ = true;
 };

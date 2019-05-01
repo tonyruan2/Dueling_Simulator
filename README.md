@@ -31,10 +31,10 @@ Combat calculation formulas were collected and crosschecked from the sources lis
 - Start menu of the application
 ![Start menu of the application](https://i.imgur.com/osz1PCm.png)
 - Random player generation
--![Random player generation](https://i.imgur.com/7C6EdTV.png)
+![Random player generation](https://i.imgur.com/7C6EdTV.png)
 - Player lookup
--![Player lookup](https://i.imgur.com/8RABhtB.png)
+![Player lookup](https://i.imgur.com/8RABhtB.png)
 - Running a simulation
--![Running a simulation](https://i.imgur.com/uxqNSjT.png)
+![Running a simulation](https://i.imgur.com/uxqNSjT.png)
 - Running a simulation with an analysis
--![Running a simulation with an analysis](https://i.imgur.com/UJhLirO.png)
+![Running a simulation with an analysis](https://i.imgur.com/UJhLirO.png)

@@ -4,9 +4,9 @@
 void ofApp::setup() {
 	ofxDatGuiLog::quiet();
 	ofSetWindowTitle("Old School Runescape Duel Simulator");
-	gui.setup();
-	background.load("background_solid.png");
-	gui.duel.simulation.setup();
+	gui_.setup();
+	background_.load("background_solid.png");
+	gui_.duel_.simulation_.setup();
 	ofSetFrameRate(30);
 }
 
@@ -17,9 +17,9 @@ void ofApp::update() {
 
 //--------------------------------------------------------------
 void ofApp::draw() {
-	background.draw(0, 0, ofGetWidth(), ofGetHeight());
-	if (should_draw) {
-		gui.duel.simulation.draw();
+	background_.draw(0, 0, ofGetWidth(), ofGetHeight());
+	if (should_draw_) {
+		gui_.duel_.simulation_.draw();
 	}
 }
 
@@ -27,7 +27,7 @@ void ofApp::draw() {
 void ofApp::keyPressed(int key) {
 	//Pause displaying the simulation for improvements in performance.
 	if (key == OF_KEY_F5) {
-		should_draw = !should_draw;
+		should_draw_ = !should_draw_;
 	}
 }
 

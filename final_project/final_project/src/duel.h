@@ -33,7 +33,7 @@ public:
 	};
 
 	//Used for graphical simulation of duel.
-	Simulation simulation;
+	Simulation simulation_;
 
 	//Run a simulation of two players dueling. Include an analysis accordingly.
 	void runSimulation(Player player_one, Player player_two, 
@@ -41,10 +41,10 @@ public:
 
 private:
 	//Used to parse json.
-	ofxJSONElement weapon_json_result;
+	ofxJSONElement weapon_json_result_;
 
 	//Bonuses (Attack, Strength, Defence) granted by each stance.
-	std::map<std::string, std::vector<int>> stance_bonuses =
+	std::map<std::string, std::vector<int>> stance_bonuses_ =
 	{
 		std::pair<std::string, std::vector<int>>("accurate", std::vector<int> {3, 0, 0}),
 		std::pair<std::string, std::vector<int>>("aggressive", std::vector<int> {0, 3, 0}),
@@ -54,41 +54,41 @@ private:
 
 	//Attack styles. Weapons tend to be superior in one or two and
 	//lackluster in the others.
-	std::vector<std::string> attack_styles = std::vector<std::string>{
+	std::vector<std::string> attack_styles_ = std::vector<std::string>{
 		"stab",
 		"slash",
 		"crush"
 	};
 
 	//ID of the winner of the duel simulation.
-	int winner = -1;
+	int winner_id_ = -1;
 
 	//Each game tick is 600 milliseconds.
-	double game_tick = 600;
+	double game_tick_ = 600;
 
 	//Player attributes.
-	int player_one_current_hitpoints;
-	std::string player_one_current_style;
-	std::map<std::string, int> player_one_weapon_bonuses;
-	int player_one_weapon_strength;
-	double player_one_attack_speed;
+	int player_one_current_hitpoints_;
+	std::string player_one_current_style_;
+	std::map<std::string, int> player_one_weapon_bonuses_;
+	int player_one_weapon_strength_;
+	double player_one_attack_speed_;
 
-	int player_two_current_hitpoints;
-	std::string player_two_current_style;
-	std::map<std::string, int> player_two_weapon_bonuses;
-	int player_two_weapon_strength;
-	double player_two_attack_speed;
+	int player_two_current_hitpoints_;
+	std::string player_two_current_style_;
+	std::map<std::string, int> player_two_weapon_bonuses_;
+	int player_two_weapon_strength_;
+	double player_two_attack_speed_;
 
 	//Int representing a simulation action of not attacking during a game tick.
-	int no_attack = -1;
+	int no_attack_action_ = -1;
 
 	//Represents player one's attacks to player two during the simulation.
 	//The difference between each index is a game tick.
-	std::vector<int> player_one_simulation_actions;
+	std::vector<int> player_one_simulation_actions_;
 
 	//Represents player two's attacks to player one during the simulation.
 	//The difference between each index is a game tick.
-	std::vector<int> player_two_simulation_actions;
+	std::vector<int> player_two_simulation_actions_;
 
 	//Set the current hitpoints and current attack style of each player.
 	void setCurrentData(Player player_one, Player player_two);

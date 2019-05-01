@@ -13,11 +13,11 @@ void Gui::setupPlayer(int player_id) {
 	ofxDatGui* gui;
 	std::string player_label;
 	if (player_id == 1) {
-		gui = player_one_gui;
+		gui = player_one_gui_;
 		player_label = "ONE";
 	}
 	else if (player_id == 2) {
-		gui = player_two_gui;
+		gui = player_two_gui_;
 		player_label = "TWO";
 	}
 	else {
@@ -55,10 +55,10 @@ void Gui::setupPlayer(int player_id) {
 	//to display as an int rather than the default float
 	gui->getSlider("Total value:")->setValue(computePlayerTotal(player_id));
 
-	gui->addDropdown("Weapon style", unarmed_weapon_styles)->select(0);
+	gui->addDropdown("Weapon style", unarmed_weapon_styles_)->select(0);
 	gui->getDropdown("Weapon style")->getChildAt(3)->setVisible(false);
 
-	gui->addDropdown("Weapon", weapons)->select(0);
+	gui->addDropdown("Weapon", weapons_)->select(0);
 	gui->addToggle("Alternate weapon style?", false);
 
 	gui->onTextInputEvent(this, &Gui::onNameInputEvent);
@@ -68,48 +68,48 @@ void Gui::setupPlayer(int player_id) {
 }
 
 void Gui::setupRandomizer() {
-	randomizer_gui->addHeader("::Randomizer::")
+	randomizer_gui_->addHeader("::Randomizer::")
 		->setBackgroundColor(ofColor(120, 120, 120));
-	randomizer_gui->addButton("Generate random players")
+	randomizer_gui_->addButton("Generate random players")
 		->setLabelAlignment(ofxDatGuiAlignment::CENTER);
-	randomizer_gui->getButton("Generate random players")
+	randomizer_gui_->getButton("Generate random players")
 		->setBackgroundColor(ofColor(0, 0, 140));
-	randomizer_gui->getButton("Generate random players")
+	randomizer_gui_->getButton("Generate random players")
 		->setBackgroundColorOnMouseOver(ofColor(0, 0, 190));
-	randomizer_gui->addToggle("Ensure similar total stats?", false);
-	randomizer_gui->addSlider("Max total dif:", 0, 383, 1)->setPrecision(0);
+	randomizer_gui_->addToggle("Ensure similar total stats?", false);
+	randomizer_gui_->addSlider("Max total dif:", 0, 383, 1)->setPrecision(0);
 
 	//to display as an int rather than the default float
-	randomizer_gui->getSlider("Max total dif:")->setValue(10);
-	randomizer_gui->onButtonEvent(this, &Gui::onRandomizeEvent);
+	randomizer_gui_->getSlider("Max total dif:")->setValue(10);
+	randomizer_gui_->onButtonEvent(this, &Gui::onRandomizeEvent);
 }
 
 void Gui::setupDuelRunner() {
-	duel_runner_gui->addHeader("::Duel Runner::")
+	duel_runner_gui_->addHeader("::Duel Runner::")
 		->setBackgroundColor(ofColor(120, 120, 120));
-	duel_runner_gui->addButton("Run simulation")
+	duel_runner_gui_->addButton("Run simulation")
 		->setLabelAlignment(ofxDatGuiAlignment::CENTER);
-	duel_runner_gui->getButton("Run simulation")
+	duel_runner_gui_->getButton("Run simulation")
 		->setBackgroundColor(ofColor(0, 140, 0));
-	duel_runner_gui->getButton("Run simulation")
+	duel_runner_gui_->getButton("Run simulation")
 		->setBackgroundColorOnMouseOver(ofColor(0, 190, 0));
-	duel_runner_gui->addToggle("Run long-run analysis?");
-	duel_runner_gui->addSlider("Total runs:", 0, 10000, 1)->setPrecision(0);
+	duel_runner_gui_->addToggle("Run long-run analysis?");
+	duel_runner_gui_->addSlider("Total runs:", 0, 10000, 1)->setPrecision(0);
 
 	//to display as an int rather than the default float
-	duel_runner_gui->getSlider("Total runs:")->setValue(100);
+	duel_runner_gui_->getSlider("Total runs:")->setValue(100);
 
-	duel_runner_gui->onButtonEvent(this, &Gui::onRunEvent);
-	duel_runner_gui->onSliderEvent(this, &Gui::onSetRunsEvent);
+	duel_runner_gui_->onButtonEvent(this, &Gui::onRunEvent);
+	duel_runner_gui_->onSliderEvent(this, &Gui::onSetRunsEvent);
 }
 
 int Gui::computePlayerTotal(int player_id) {
 	ofxDatGui* gui;
 	if (player_id == 1) {
-		gui = player_one_gui;
+		gui = player_one_gui_;
 	}
 	else if (player_id == 2) {
-		gui = player_two_gui;
+		gui = player_two_gui_;
 	}
 	else {
 		return -1; //private method should never return -1
@@ -126,10 +126,10 @@ int Gui::computePlayerTotal(int player_id) {
 void Gui::setRandomStats(int player_id) {
 	ofxDatGui* gui;
 	if (player_id == 1) {
-		gui = player_one_gui;
+		gui = player_one_gui_;
 	}
 	else if (player_id == 2) {
-		gui = player_two_gui;
+		gui = player_two_gui_;
 	}
 	else {
 		return;
@@ -145,21 +145,21 @@ void Gui::setRandomStats(int player_id) {
 }
 
 void Gui::parsePlayerJson(ofxDatGui* gui, std::string url) {
-	bool parsingSuccessful = player_json_result.open(url);
+	bool parsingSuccessful = player_json_result_.open(url);
 
 	if (parsingSuccessful)
 	{
-		if (player_json_result["status"].asString() == "success") {
+		if (player_json_result_["status"].asString() == "success") {
 			gui->getTextInput("Player name:")
 				->setBackgroundColor(ofColor(0, 0, 0));
 			gui->getSlider("Attack:")
-				->setValue(stoi(player_json_result["stats"]["attack"]["level"].asString()));
+				->setValue(stoi(player_json_result_["stats"]["attack"]["level"].asString()));
 			gui->getSlider("Strength:")
-				->setValue(stoi(player_json_result["stats"]["strength"]["level"].asString()));
+				->setValue(stoi(player_json_result_["stats"]["strength"]["level"].asString()));
 			gui->getSlider("Defence:")
-				->setValue(stoi(player_json_result["stats"]["defence"]["level"].asString()));
+				->setValue(stoi(player_json_result_["stats"]["defence"]["level"].asString()));
 			gui->getSlider("Hitpoints:")
-				->setValue(stoi(player_json_result["stats"]["hitpoints"]["level"].asString()));
+				->setValue(stoi(player_json_result_["stats"]["hitpoints"]["level"].asString()));
 		}
 		else {
 			gui->getTextInput("Player name:")->setText("##INVALID_NAME##");
@@ -170,40 +170,40 @@ void Gui::parsePlayerJson(ofxDatGui* gui, std::string url) {
 }
 
 void Gui::parseWeaponJson() {
-	weapon_styles.push_back(unarmed_weapon_styles);
+	weapon_styles_.push_back(unarmed_weapon_styles_);
 
-	for (int weapon_i = 1; weapon_i < weapons.size(); weapon_i++) {
+	for (int weapon_i = 1; weapon_i < weapons_.size(); weapon_i++) {
 		std::string url = "https://www.osrsbox.com/osrsbox-db/items-json/"
-		+ weapon_ids.at(weapon_i) + ".json";
+		+ weapon_ids_.at(weapon_i) + ".json";
 
-		bool parsingSuccessful = weapon_json_result.open(url);
+		bool parsingSuccessful = weapon_json_result_.open(url);
 
 		if (parsingSuccessful) {
-			weapon_attack_reqs.push_back(
-			std::stoi(weapon_json_result["equipment"]["requirements"]["attack"].asString()));
+			weapon_attack_reqs_.push_back(
+			std::stoi(weapon_json_result_["equipment"]["requirements"]["attack"].asString()));
 		
 			std::vector<std::string> styles;
 
 			for (Json::ArrayIndex stance_i = 0;
-				stance_i < weapon_json_result["weapon"]["stances"].size(); stance_i++) {
+				stance_i < weapon_json_result_["weapon"]["stances"].size(); stance_i++) {
 				std::string attack_style = "";
-				attack_style.append(weapon_json_result["weapon"]["stances"]
+				attack_style.append(weapon_json_result_["weapon"]["stances"]
 					[stance_i]["combat_style"].asString());
 				attack_style.append(" (");
-				attack_style.append(weapon_json_result["weapon"]["stances"]
+				attack_style.append(weapon_json_result_["weapon"]["stances"]
 					[stance_i]["attack_style"].asString());
 				attack_style.append(", ");
-				attack_style.append(weapon_json_result["weapon"]["stances"]
+				attack_style.append(weapon_json_result_["weapon"]["stances"]
 					[stance_i]["attack_type"].asString());
 				attack_style.append(")");
 				styles.push_back(attack_style);
 			}
 
-			if (weapon_json_result["weapon"]["stances"].size() < max_num_attack_styles) {
+			if (weapon_json_result_["weapon"]["stances"].size() < max_num_attack_styles_) {
 				styles.push_back(styles.at(0));
 			}
 
-			weapon_styles.push_back(styles);
+			weapon_styles_.push_back(styles);
 		}
 	}
 }
@@ -214,18 +214,18 @@ void Gui::onNameInputEvent(ofxDatGuiTextInputEvent e) {
 	}
 
 	//user input is truncated at 12 characters
-	if (player_one_gui->getTextInput("Player name:")
-		->getText().length() > max_username_length) {
-		player_one_gui->getTextInput("Player name:")
-			->setText(player_one_gui->getTextInput("Player name:")
-				->getText().substr(0, max_username_length));
+	if (player_one_gui_->getTextInput("Player name:")
+		->getText().length() > max_username_length_) {
+		player_one_gui_->getTextInput("Player name:")
+			->setText(player_one_gui_->getTextInput("Player name:")
+				->getText().substr(0, max_username_length_));
 	}
 
-	if (player_two_gui->getTextInput("Player name:")
-		->getText().length() > max_username_length) {
-		player_two_gui->getTextInput("Player name:")
-			->setText(player_two_gui->getTextInput("Player name:")
-				->getText().substr(0, max_username_length));
+	if (player_two_gui_->getTextInput("Player name:")
+		->getText().length() > max_username_length_) {
+		player_two_gui_->getTextInput("Player name:")
+			->setText(player_two_gui_->getTextInput("Player name:")
+				->getText().substr(0, max_username_length_));
 	}
 }
 
@@ -233,11 +233,11 @@ void Gui::onLookupEvent(ofxDatGuiButtonEvent e) {
 	ofxDatGui* gui;
 	int player_id = 0;
 	if (e.target->is("LOOKUP PLAYER ONE")) {
-		gui = player_one_gui;
+		gui = player_one_gui_;
 		player_id = 1;
 	}
 	else  if (e.target->is("LOOKUP PLAYER TWO")) {
-		gui = player_two_gui;
+		gui = player_two_gui_;
 		player_id = 2;
 	}
 	else {
@@ -262,31 +262,31 @@ void Gui::onStatChangeEvent(ofxDatGuiSliderEvent e) {
 
 	//Enforce attack requirements for weapons
 	if (e.target->is("Attack:")) {
-		for (int weapon_i = 0; weapon_i < weapons.size(); weapon_i++) {
-			if ((player_one_gui->getDropdown("Weapon")
-				->getSelected()->getLabel() == weapons.at(weapon_i)) 
-				&& player_one_gui->getSlider("Attack:")
-				->getValue() < weapon_attack_reqs.at(weapon_i)) {
+		for (int weapon_i = 0; weapon_i < weapons_.size(); weapon_i++) {
+			if ((player_one_gui_->getDropdown("Weapon")
+				->getSelected()->getLabel() == weapons_.at(weapon_i)) 
+				&& player_one_gui_->getSlider("Attack:")
+				->getValue() < weapon_attack_reqs_.at(weapon_i)) {
 
-				player_one_gui->getSlider("Attack:")
-					->setValue(weapon_attack_reqs.at(weapon_i));
+				player_one_gui_->getSlider("Attack:")
+					->setValue(weapon_attack_reqs_.at(weapon_i));
 				return;
 			}
 
-			if ((player_two_gui->getDropdown("Weapon")
-				->getSelected()->getLabel() == weapons.at(weapon_i))
-				&& player_two_gui->getSlider("Attack:")
-				->getValue() < weapon_attack_reqs.at(weapon_i)) {
+			if ((player_two_gui_->getDropdown("Weapon")
+				->getSelected()->getLabel() == weapons_.at(weapon_i))
+				&& player_two_gui_->getSlider("Attack:")
+				->getValue() < weapon_attack_reqs_.at(weapon_i)) {
 
-				player_two_gui->getSlider("Attack:")
-					->setValue(weapon_attack_reqs.at(weapon_i));
+				player_two_gui_->getSlider("Attack:")
+					->setValue(weapon_attack_reqs_.at(weapon_i));
 				return;
 			}
 		}
 	}
 
-	player_one_gui->getSlider("Total value:")->setValue(computePlayerTotal(1));
-	player_two_gui->getSlider("Total value:")->setValue(computePlayerTotal(2));
+	player_one_gui_->getSlider("Total value:")->setValue(computePlayerTotal(1));
+	player_two_gui_->getSlider("Total value:")->setValue(computePlayerTotal(2));
 }
 
 void Gui::onWeaponChangeEvent(ofxDatGuiDropdownEvent e) {
@@ -294,38 +294,38 @@ void Gui::onWeaponChangeEvent(ofxDatGuiDropdownEvent e) {
 
 	for (int gui_i = 1; gui_i <= 2; gui_i++) {
 		if (gui_i == 1) {
-			gui = player_one_gui;
+			gui = player_one_gui_;
 		}
 		else {
-			gui = player_two_gui;
+			gui = player_two_gui_;
 		}
 
 		//Enforce the attack requirements for weapons.
 		if (e.target->is("Weapon")) {
-			for (int weapon_i = 0; weapon_i < weapons.size(); weapon_i++) {
+			for (int weapon_i = 0; weapon_i < weapons_.size(); weapon_i++) {
 				if ((gui->getDropdown("Weapon")
-					->getSelected()->getLabel() == weapons.at(weapon_i))) {
+					->getSelected()->getLabel() == weapons_.at(weapon_i))) {
 
 					//"Unarmed" and weapons with three weapon styles have the fourth weapon
 					//style hidden.
-					if (weapons.at(weapon_i) == "Unarmed" ||
-						(weapon_styles.at(weapon_i).at(0) ==
-							weapon_styles.at(weapon_i).at(max_num_attack_styles - 1))) {
+					if (weapons_.at(weapon_i) == "Unarmed" ||
+						(weapon_styles_.at(weapon_i).at(0) ==
+							weapon_styles_.at(weapon_i).at(max_num_attack_styles_ - 1))) {
 
 						gui->getDropdown("Weapon style")
-							->getChildAt(max_num_attack_styles - 1)->setVisible(false);
+							->getChildAt(max_num_attack_styles_ - 1)->setVisible(false);
 					}
 					else {
 						gui->getDropdown("Weapon style")
-							->getChildAt(max_num_attack_styles - 1)->setVisible(true);
+							->getChildAt(max_num_attack_styles_ - 1)->setVisible(true);
 					}
 
 
 					for (int style_i = 0;
-						style_i < weapon_styles.at(weapon_i).size(); style_i++) {
+						style_i < weapon_styles_.at(weapon_i).size(); style_i++) {
 						gui->getDropdown("Weapon style")
 							->getChildAt(style_i)
-							->setLabel(weapon_styles.at(weapon_i).at(style_i));
+							->setLabel(weapon_styles_.at(weapon_i).at(style_i));
 					}
 
 
@@ -334,10 +334,10 @@ void Gui::onWeaponChangeEvent(ofxDatGuiDropdownEvent e) {
 						->getSelected()->getLabel());
 
 					if (gui->getSlider("Attack:")
-						->getValue() < weapon_attack_reqs.at(weapon_i)) {
+						->getValue() < weapon_attack_reqs_.at(weapon_i)) {
 
 						gui->getSlider("Attack:")
-							->setValue(weapon_attack_reqs.at(weapon_i));
+							->setValue(weapon_attack_reqs_.at(weapon_i));
 					}
 					break;
 				}
@@ -352,10 +352,10 @@ void Gui::onRandomizeEvent(ofxDatGuiButtonEvent e) {
 		return;
 	}
 
-	player_one_gui->getTextInput("Player name:")->setText("");
-	player_two_gui->getTextInput("Player name:")->setText("");
+	player_one_gui_->getTextInput("Player name:")->setText("");
+	player_two_gui_->getTextInput("Player name:")->setText("");
 
-	bool generate_similar = randomizer_gui
+	bool generate_similar = randomizer_gui_
 		->getToggle("Ensure similar total stats?")->getChecked();
 
 	if (generate_similar) {
@@ -366,7 +366,7 @@ void Gui::onRandomizeEvent(ofxDatGuiButtonEvent e) {
 		//generate random player data for the second player until the total 
 		//value of their stats are within a similarity threshold compared 
 		//to the first player
-		int stats_similarity_threshold = randomizer_gui
+		int stats_similarity_threshold = randomizer_gui_
 			->getSlider("Max total dif:")->getValue();
 
 		while (!(abs(player_two_total_stat_value - player_one_total_stat_value) 
@@ -383,42 +383,42 @@ void Gui::onRandomizeEvent(ofxDatGuiButtonEvent e) {
 
 void Gui::onSetRunsEvent(ofxDatGuiSliderEvent e) {
 	if (e.target->is("Total runs:")
-		&& duel_runner_gui->getSlider("Total runs:")->getValue() < 100) {
-		duel_runner_gui->getSlider("Total runs:")->setValue(100);
+		&& duel_runner_gui_->getSlider("Total runs:")->getValue() < 100) {
+		duel_runner_gui_->getSlider("Total runs:")->setValue(100);
 	}
 }
 
 void Gui::onRunEvent(ofxDatGuiButtonEvent e) {
 	if (e.target->is("Run simulation")) {
 		Duel::Player player_one;
-		player_one.setStats(1, player_one_gui->getSlider("Attack:")->getValue(),
-			player_one_gui->getSlider("Strength:")->getValue(),
-			player_one_gui->getSlider("Defence:")->getValue(),
-			player_one_gui->getSlider("Hitpoints:")->getValue());
+		player_one.setStats(1, player_one_gui_->getSlider("Attack:")->getValue(),
+			player_one_gui_->getSlider("Strength:")->getValue(),
+			player_one_gui_->getSlider("Defence:")->getValue(),
+			player_one_gui_->getSlider("Hitpoints:")->getValue());
 
-		player_one.setCombatSpecs(player_one_gui->getDropdown("Weapon style")->getSelected()->getLabel(),
-			player_one_gui->getDropdown("Weapon")->getSelected()->getLabel(),
-			weapon_ids.at(player_one_gui->getDropdown("Weapon")->getSelected()->getIndex()),
-			weapon_styles.at(player_one_gui->getDropdown("Weapon")->getSelected()->getIndex()),
-			player_one_gui->getToggle("Alternate weapon style?")->getChecked());
+		player_one.setCombatSpecs(player_one_gui_->getDropdown("Weapon style")->getSelected()->getLabel(),
+			player_one_gui_->getDropdown("Weapon")->getSelected()->getLabel(),
+			weapon_ids_.at(player_one_gui_->getDropdown("Weapon")->getSelected()->getIndex()),
+			weapon_styles_.at(player_one_gui_->getDropdown("Weapon")->getSelected()->getIndex()),
+			player_one_gui_->getToggle("Alternate weapon style?")->getChecked());
 
 		Duel::Player player_two;
-		player_two.setStats(2, player_two_gui->getSlider("Attack:")->getValue(),
-			player_two_gui->getSlider("Strength:")->getValue(),
-			player_two_gui->getSlider("Defence:")->getValue(),
-			player_two_gui->getSlider("Hitpoints:")->getValue());
+		player_two.setStats(2, player_two_gui_->getSlider("Attack:")->getValue(),
+			player_two_gui_->getSlider("Strength:")->getValue(),
+			player_two_gui_->getSlider("Defence:")->getValue(),
+			player_two_gui_->getSlider("Hitpoints:")->getValue());
 
-		player_two.setCombatSpecs(player_two_gui->getDropdown("Weapon style")->getSelected()->getLabel(),
-			player_two_gui->getDropdown("Weapon")->getSelected()->getLabel(),
-			weapon_ids.at(player_two_gui->getDropdown("Weapon")->getSelected()->getIndex()),
-			weapon_styles.at(player_two_gui->getDropdown("Weapon")->getSelected()->getIndex()),
-			player_two_gui->getToggle("Alternate weapon style?")->getChecked());
+		player_two.setCombatSpecs(player_two_gui_->getDropdown("Weapon style")->getSelected()->getLabel(),
+			player_two_gui_->getDropdown("Weapon")->getSelected()->getLabel(),
+			weapon_ids_.at(player_two_gui_->getDropdown("Weapon")->getSelected()->getIndex()),
+			weapon_styles_.at(player_two_gui_->getDropdown("Weapon")->getSelected()->getIndex()),
+			player_two_gui_->getToggle("Alternate weapon style?")->getChecked());
 
-		duel.runSimulation(player_one, player_two,
-			duel_runner_gui->getToggle("Run long-run analysis?")->getChecked(),
-			duel_runner_gui->getSlider("Total runs:")->getValue());
+		duel_.runSimulation(player_one, player_two,
+			duel_runner_gui_->getToggle("Run long-run analysis?")->getChecked(),
+			duel_runner_gui_->getSlider("Total runs:")->getValue());
 
-		duel.simulation.setPlayerDataVisibility(
-			duel_runner_gui->getToggle("Run long-run analysis?")->getChecked());
+		duel_.simulation_.setPlayerDataVisibility(
+			duel_runner_gui_->getToggle("Run long-run analysis?")->getChecked());
 	}
 }
