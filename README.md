@@ -28,8 +28,8 @@ Combat calculation formulas were collected and crosschecked from the sources lis
 - Overview of combat formulas: https://www.osrsbox.com/blog/2019/01/22/calculating-melee-dps-in-osrs/#1-calculating-max-hit
 
 # Pictures
-![Start menu of the application] (https://i.imgur.com/osz1PCm.png)
-![Random player generation] (https://i.imgur.com/7C6EdTV.png)
-![Player lookup] (https://i.imgur.com/8RABhtB.png)
-![Running a simulation] (https://i.imgur.com/uxqNSjT.png)
-![Running a simulation with an analysis] (https://i.imgur.com/UJhLirO.png)
+-![Start menu of the application](https://i.imgur.com/osz1PCm.png)
+-![Random player generation](https://i.imgur.com/7C6EdTV.png)
+-![Player lookup](https://i.imgur.com/8RABhtB.png)
+-![Running a simulation](https://i.imgur.com/uxqNSjT.png)
+-![Running a simulation with an analysis](https://i.imgur.com/UJhLirO.png)
