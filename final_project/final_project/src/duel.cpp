@@ -350,7 +350,7 @@ int Duel::inflictDamageForSimulation(Player attacker, Player defender) {
 	double attacker_accuracy = computeAccuracy(attacker, defender);
 	double roll = (double)(rand() % 10001) / 10000;
 	if (roll <= attacker_accuracy) {
-		int damage_dealt = rand() % computeMaxHit(attacker) + 1;
+		int damage_dealt = rand() % (computeMaxHit(attacker) + 1);
 		if (defender.player_id == 1) {
 			std::cout << "Player 2 dealt " << damage_dealt << " damage" << std::endl << std::endl;
 			player_one_current_hitpoints_ -= damage_dealt;
@@ -556,7 +556,7 @@ void Duel::inflictDamageForLongRun(Player attacker, Player defender) {
 	double attacker_accuracy = computeAccuracy(attacker, defender);
 	double roll = (double)(rand() % 10001) / 10000;
 	if (roll <= attacker_accuracy) {
-		int damage_dealt = rand() % computeMaxHit(attacker) + 1;
+		int damage_dealt = rand() % (computeMaxHit(attacker) + 1);
 		if (defender.player_id == 1) {
 			player_one_current_hitpoints_ -= damage_dealt;
 		}

@@ -3,7 +3,7 @@
 //--------------------------------------------------------------
 void ofApp::setup() {
 	ofxDatGuiLog::quiet();
-	ofSetWindowTitle("Old School Runescape Duel Simulator");
+	ofSetWindowTitle("Old School RuneScape Duel Simulator");
 	gui_.setup();
 	background_.load("background_solid.png");
 	gui_.duel_.simulation_.setup();
